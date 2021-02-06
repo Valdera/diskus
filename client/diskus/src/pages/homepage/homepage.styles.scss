@@ -1,0 +1,107 @@
+@import '../../sass/main.scss';
+
+.homepage {
+  margin-top: 8vh;
+  height: 92vh;
+  background-color: $color-primary;
+  position: relative;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  display: grid;
+  padding: 11rem 20rem;
+  padding-bottom: 30vh;
+  grid-template-columns: 1fr 1fr;
+
+  @include respond(tab-land) {
+    padding: 15rem 10rem;
+    grid-column-gap: 5rem;
+  }
+
+  @include respond(tab-port) {
+    padding: 8rem 10rem;
+    grid-column-gap: 2rem;
+    height: 92vh;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100vh, 0 100%);
+  }
+
+  @include respond(phone) {
+    padding: 5rem 2.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  &__svg {
+    & > * {
+      transform: scale(1.2) translateY(1rem);
+      width: 100%;
+    }
+
+    @include respond(phone) {
+      & > * {
+        transform: scale(0.85);
+      }
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-rows: max-content max-content 1fr;
+    grid-row-gap: 4rem;
+    justify-content: start;
+
+    h1 {
+      display: block;
+      font-family: $font-display;
+      font-size: 5rem;
+      line-height: 1.1;
+      color: $color-white;
+
+      span {
+        // color: $color-secondary;
+      }
+    }
+
+    p {
+      font-size: 1.6rem;
+      color: $color-white;
+      font-weight: 400;
+      span {
+        font-size: 2rem;
+        font-weight: 500;
+        color: $color-tertiary;
+      }
+    }
+
+    button {
+      cursor: pointer;
+      font-size: 1.8rem;
+      align-self: end;
+      justify-self: start;
+      padding: 1.3rem 5rem;
+      background-color: $color-white;
+      border: none;
+      border-radius: 25px;
+      color: $color-primary;
+      transition: all 0.3s;
+      @include respond(tab-land) {
+        align-self: start;
+      }
+      @include respond(tab-port) {
+        align-self: start;
+      }
+      @include respond(phone) {
+        align-self: center;
+        justify-self: center;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+        color: $color-secondary;
+      }
+
+      &:active {
+        transform: scale(1);
+      }
+    }
+  }
+}

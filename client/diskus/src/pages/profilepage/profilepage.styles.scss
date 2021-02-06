@@ -1,0 +1,131 @@
+@import '../../sass/main.scss';
+
+.profilepage {
+  width: 100%;
+  margin-top: 8vh;
+  display: grid;
+  padding: 0 30rem;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: max-content max-content max-content;
+
+  @include respond(tab-land) {
+    padding: 0 10rem;
+    grid-template-rows: max-content max-content max-content;
+  }
+  @include respond(tab-port) {
+    grid-template-columns: 1fr;
+
+    grid-template-rows: max-content max-content max-content max-content max-content;
+
+    padding: 0 15rem;
+  }
+  @include respond(phone) {
+    grid-template-columns: 100%;
+    grid-template-rows: 130vw max-content max-content max-content max-content;
+
+    padding: 0 2rem;
+  }
+
+  &__welcome {
+    width: 100%;
+    padding-top: 3rem;
+    display: grid;
+    grid-template-rows: max-content repeat(3, 12rem);
+    grid-row-gap: 2rem;
+    padding-bottom: 3rem;
+
+    h1 {
+      font-family: $font-display;
+      line-height: 1;
+      font-size: 5.5rem;
+    }
+
+    &-title {
+      color: $color-primary;
+    }
+
+    &-name {
+      color: $color-secondary;
+    }
+
+    &-popular {
+      margin-top: 1rem;
+      font-size: 1.8rem;
+      font-weight: 400;
+    }
+  }
+
+  &__biodata {
+    padding-top: 2rem;
+    padding-left: 20%;
+    @include respond(tab-port) {
+      padding-left: 0;
+      padding-top: 0rem;
+      padding-bottom: 4rem;
+    }
+  }
+
+  &__submit {
+    width: 100%;
+    padding-bottom: 3rem;
+    padding-top: 2rem;
+  }
+
+  &__following {
+    padding-top: 2rem;
+    padding-left: 20%;
+    padding-bottom: 5rem;
+    display: grid;
+    grid-template-rows: max-content 1fr;
+    @include respond(tab-port) {
+      padding-left: 0;
+      grid-row: 3 / 4;
+    }
+    h1 {
+      font-family: $font-display;
+      color: $color-primary;
+      font-size: 4rem;
+      line-height: 1;
+    }
+
+    &-list {
+      margin-top: 2rem;
+      overflow: auto;
+    }
+  }
+
+  &__post {
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+    min-height: 92vh;
+    grid-column: 1/-1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+
+    @include respond(tab-port) {
+      align-items: start;
+      min-height: 60vh;
+    }
+
+    @include respond(phone) {
+      grid-column: 1/2;
+      width: 100%;
+    }
+
+    &-list {
+      margin-top: 1rem;
+      & > * {
+        margin-top: 2rem;
+      }
+    }
+
+    h1 {
+      font-family: $font-display;
+      color: $color-primary;
+      font-size: 4rem;
+      line-height: 1;
+    }
+  }
+}

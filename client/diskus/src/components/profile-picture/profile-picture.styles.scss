@@ -1,0 +1,37 @@
+@import '../../sass/main.scss';
+
+.profile-picture {
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.3s;
+  z-index: 1;
+
+  &--small {
+    width: 4rem;
+    height: 4rem;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  &--discuss {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  &--small-nohover {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  &--medium {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+
+  &--large {
+    width: 10rem;
+    height: 10rem;
+  }
+}

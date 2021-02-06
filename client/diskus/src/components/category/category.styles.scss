@@ -1,0 +1,15 @@
+@import '../../sass/main.scss';
+
+.category {
+  cursor: pointer;
+  background-color: $color-primary;
+  color: $color-white;
+  padding: 0.7rem 2rem;
+  border-radius: 20px;
+  font-size: 1.3rem;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

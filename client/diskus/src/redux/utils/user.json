@@ -1,0 +1,29 @@
+{
+    "_id": "afasdfasdfasdfsad",
+    "name" : "Fauzan Adityarahman",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enimf ad minim veniam.",
+    "email": "f.valdera@yahoo.co.id",
+    "photo": "ww",
+    "following": [
+        "safdafasdfsda",
+        "afasdfasdfasdfsad"
+    ],
+    "follower":["adsfasdfa",
+    "dasfasdf"],
+    "activeStreak":13,
+    "lastLogin": 12312342,
+    "discussion": [
+        {
+            "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enimf ad minim veniam.",
+            "vote": 12,
+            "comment": [
+                {
+                    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enimf ad minim veniam.",
+                    "vote": "Lorem ups",
+                    "user": "ausdfashdfasdaf"
+
+                }
+            ]
+        }
+    ]
+}

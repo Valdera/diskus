@@ -1,0 +1,37 @@
+@import '../../sass/main.scss';
+
+.discussionpage {
+  margin-top: 8vh;
+  padding: 0 30rem;
+  padding-bottom: 5rem;
+  @include respond(tab-land) {
+    // padding: 0 30rem;
+    // padding-bottom: 5rem;
+  }
+  @include respond(tab-port) {
+    padding: 0 10rem;
+    padding-bottom: 5rem;
+  }
+  @include respond(phone) {
+    padding: 0 2rem;
+    padding-bottom: 5rem;
+  }
+  &__discussion {
+    padding-top: 2rem;
+  }
+
+  &__comment {
+    margin-top: 2rem;
+    h3 {
+      font-family: $font-display;
+      color: $color-primary;
+      line-height: 1;
+      font-size: 2.1rem;
+    }
+    & > * {
+      &:not(:first-child) {
+        margin-top: 2rem;
+      }
+    }
+  }
+}

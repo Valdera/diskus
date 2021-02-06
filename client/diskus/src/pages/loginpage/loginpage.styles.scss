@@ -1,0 +1,36 @@
+@import '../../sass/main.scss';
+
+.loginpage {
+  margin-top: 8vh;
+  padding: 0 30rem;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: center;
+  grid-column-gap: 30rem;
+  padding-top: 5rem;
+
+  @include respond(tab-port) {
+    grid-column-gap: 10rem;
+  }
+  @include respond(phone) {
+    padding: 0 2rem;
+    padding-top: 4rem;
+
+    grid-template-columns: max-content;
+    grid-row-gap: 5rem;
+  }
+
+  &__signin {
+    & > * {
+      &:not(:first-child) {
+        margin-top: 2rem;
+      }
+    }
+  }
+
+  &__signin {
+  }
+
+  &__signup {
+  }
+}

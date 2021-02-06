@@ -1,0 +1,27 @@
+.u-mg-bottom-small {
+  margin-bottom: 1.5rem !important;
+}
+.u-mg-bottom-medium {
+  margin-bottom: 4rem !important;
+
+  // @include respond(tab-port) {
+  //   margin-bottom: 3rem !important;
+  // }
+}
+.u-mg-bottom-big {
+  margin-bottom: 8rem !important;
+
+  // @include respond(tab-port) {
+  //   margin-bottom: 5rem !important;
+  // }
+}
+
+.u-mg-top-small {
+  margin-top: 1.5rem !important;
+}
+.u-mg-top-big {
+  margin-top: 8rem !important;
+}
+.u-mg-top-huge {
+  margin-top: 10rem !important;
+}

@@ -1,0 +1,68 @@
+@import '../../sass/main.scss';
+
+.post {
+  padding: 3rem 3rem;
+  border: 1px solid rgba($color-grey-dark, 1);
+  width: 65rem;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+
+  @include respond(phone) {
+    width: 100%;
+  }
+
+  &__vote {
+  }
+
+  &__content {
+    cursor: pointer;
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: column;
+
+    & > * {
+      &:not(:first-child) {
+        margin-top: 1rem;
+      }
+    }
+
+    h2 {
+      font-size: 2rem;
+      line-height: 1;
+      color: $color-secondary;
+    }
+
+    p {
+      font-size: 1.3rem;
+
+      span {
+        cursor: pointer;
+        color: $color-primary;
+        transition: all 0.2s;
+
+        &:hover {
+          color: $color-secondary;
+        }
+      }
+    }
+
+    img {
+      align-self: center;
+      max-height: 35rem;
+      max-width: 90%;
+      @include respond(phone) {
+        max-width: 70%;
+      }
+    }
+  }
+
+  &__categories {
+    display: flex;
+    & > * {
+      &:not(:last-child) {
+        margin-right: 1.2rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,102 @@
+@import '../../sass/main.scss';
+
+.navbar {
+  background-color: $color-white;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 8vh;
+  padding: 0 20rem;
+  display: grid;
+  grid-template-columns: min-content 1fr max-content max-content;
+  grid-column-gap: 2rem;
+  align-items: center;
+  box-shadow: 0 1rem 3rem rgba($color-grey-dark, 0.1);
+  z-index: 100;
+
+  @include respond(tab-land) {
+    padding: 0 10rem;
+  }
+
+  @include respond(tab-port) {
+    padding: 0 10rem;
+  }
+
+  @include respond(phone) {
+    padding: 0 2.5rem;
+    grid-template-columns: min-content 1fr max-content;
+    &__btn {
+      display: none;
+    }
+  }
+
+  &__logo {
+    cursor: pointer;
+    font-family: $font-logo;
+    font-size: 3.3rem;
+    line-height: 1;
+
+    span {
+      color: $color-primary;
+    }
+  }
+
+  form {
+    justify-self: center;
+  }
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__input {
+    font-family: inherit;
+    font-size: 1.5rem;
+    color: inherit;
+    // background-color: $color-grey-light-2;
+    border: 2px solid rgba($color-grey-dark, 0.4);
+    width: 35vw;
+    padding: 0.6rem 2rem;
+    border-radius: 100px;
+    transition: all 0.2s;
+    margin-right: -3.25rem;
+
+    &:focus {
+      outline: none;
+      width: 40vw;
+      border: 2px solid rgba($color-primary, 1);
+    }
+
+    &::-webkit-input-placeholder {
+      font-weight: 100;
+      color: $color-grey-dark;
+    }
+
+    @include respond(phone) {
+      width: 100%;
+      &:focus {
+        outline: none;
+        width: 100%;
+        border: 2px solid rgba($color-primary, 1);
+      }
+    }
+  }
+
+  &__input:focus + &__button {
+    i {
+      color: $color-primary;
+    }
+  }
+
+  &__button {
+    border: none;
+    cursor: pointer;
+    background-color: $color-white;
+
+    i {
+      color: rgba($color-grey-dark, 0.8);
+    }
+  }
+}

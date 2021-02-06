@@ -1,0 +1,79 @@
+@import '../../sass/main.scss';
+
+.submit {
+  height: 100%;
+  width: 80%;
+  display: grid;
+  grid-template-rows: repeat(3, max-content) max-content max-content;
+  grid-row-gap: 1rem;
+
+  h1 {
+    font-family: $font-display;
+    color: $color-primary;
+    font-size: 4rem;
+    line-height: 1;
+  }
+
+  &__input {
+    p {
+      font-size: 1.5rem;
+      color: $color-secondary;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+    }
+
+    &-text {
+      width: 100%;
+      border-radius: 10px;
+      padding: 0.6rem 0.8rem;
+      border: 2px solid rgba($color-grey-dark, 0.2);
+      transition: all 0.3s;
+      font-family: inherit;
+      color: inherit;
+
+      &:focus {
+        outline: none;
+        border: 2px solid rgba($color-primary, 1);
+      }
+
+      &::-webkit-input-placeholder {
+        font-weight: 100;
+        color: $color-grey-dark;
+      }
+    }
+
+    textarea {
+      border-radius: 10px;
+      padding: 0.6rem 0.8rem;
+      border: 2px solid rgba($color-grey-dark, 0.2);
+      transition: all 0.3s;
+      font-family: inherit;
+      font-size: 1.2rem;
+      color: inherit;
+      height: 20rem;
+      // max-height: 35rem;
+      width: 100%;
+      transition: all 0.3s;
+
+      @include respond(tab-land) {
+        height: 15rem;
+      }
+      @include respond(phone) {
+        height: 15rem;
+      }
+
+      &:focus {
+        outline: none;
+        border: 2px solid rgba($color-primary, 1);
+      }
+    }
+  }
+
+  &__button {
+    @include respond(phone) {
+      margin-top: 2rem;
+    }
+    display: flex;
+    justify-content: space-between;
+  }
+}

@@ -1,0 +1,29 @@
+@import '../../sass/main.scss';
+
+.following {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: $color-white;
+  transition: all 0.3s;
+
+  & > * {
+    transition: all 0.2s;
+
+    cursor: pointer;
+  }
+
+  & > *:hover {
+    background-color: $color-primary;
+  }
+
+  &__name {
+    width: 60%;
+    background-color: $color-secondary;
+    padding: 0 2rem;
+    border-radius: 20px;
+    transform: translateX(-5%);
+  }
+}
