@@ -23,3 +23,4 @@ Diskus adalah situs web diskusi dan berita. Anggota yang terdaftar dapat mengiri
 
 - **Fauzan Valdera** - _Full Stack_ - [Valdera](https://github.com/Valdera)
 - **Helkia Yeremia** - _Back End_ - [Helkia Yeremia](https://github.com/helkiayeremia)
+- **Arigi Adityarahman** - _Front End_ - [Arigi Adityarahman](https://github.com/orchne)
