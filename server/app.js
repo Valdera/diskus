@@ -8,6 +8,8 @@ const cors = require('cors');
 const mongoSanitize = require('express-mongo-sanitize');
 const AppError = require('./utils/appError');
 const userRouter = require('./routes/userRoutes');
+const disccussionRouter = require('./routes/discussionRoutes');
+const commentRouter = require('./routes/commentRoutes');
 
 const globalErrorHandler = require('./controller/errorController');
 
@@ -63,6 +65,8 @@ app.use((req, res, next) => {
 
 //* ROUTES
 app.use('/api/users', userRouter);
+app.use('/api/discussions', disccussionRouter);
+app.use('/api/comments', commentRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
