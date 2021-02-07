@@ -1,14 +1,26 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
+const { model } = require('mongoose');
 
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
+    // Delete comment and Discussion
+    const docFind = await Model.findById(req.params.id);
+    if (['Comment', 'Discussion'].includes(Model.modelName))
+    {
+      
+      if (docFind.user != req.user.id)
+      {
+        return next(new AppError(`No document found with that ID`, 404));
+      }
+    }
+    
+    // Delete the rest
     const doc = await Model.findByIdAndDelete(req.params.id);
     if (!doc) {
       return next(new AppError(`No document found with that ID`, 404));
     }
-
     res.status(200).json({
       status: 'success',
       data: null
@@ -17,6 +29,17 @@ exports.deleteOne = Model =>
 
 exports.updateOne = Model =>
   catchAsync(async (req, res, next) => {
+    // Update comment and Discussion
+    const docFind = await Model.findById(req.params.id);
+    if (['Comment', 'Discussion'].includes(Model.modelName))
+    {
+      
+      if (docFind.user != req.user.id)
+      {
+        return next(new AppError(`No document found with that ID`, 404));
+      }
+    }
+    // Update the rest
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true
@@ -61,7 +84,6 @@ exports.getOne = (Model, populateOpt) =>
     if (!doc) {
       return next(new AppError('No Document find with that ID', 400));
     }
-
     res.status(200).json({
       status: 'success',
       data: {
@@ -76,7 +98,7 @@ exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
     let filter = {};
 
-    if (req.params.examId) filter = { exam: req.params.examId };
+    // if (req.params.examId) filter = { exam: req.params.examId };
 
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
@@ -85,7 +107,6 @@ exports.getAll = Model =>
       .paginate();
 
     const doc = await features.query;
-
     res.status(200).json({
       status: 'success',
       results: doc.length,
@@ -94,3 +115,4 @@ exports.getAll = Model =>
       }
     });
   });
+

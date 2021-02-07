@@ -7,8 +7,8 @@ const router = express.Router();
 router
   .route('/:id')
   .get(commentController.getComment)
-  .patch(commentController.updateComment)
-  .delete(commentController.deleteComment);
+  .patch(authController.protect, commentController.updateComment)
+  .delete(authController.protect, commentController.deleteComment);
 
 router
   .route('/')

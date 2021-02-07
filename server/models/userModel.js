@@ -53,6 +53,13 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
     select: false
+  },
+  image : {
+    type : String
+  },
+  streak : {
+    type: Number,
+    default: 0
   }
 });
 
@@ -107,6 +114,21 @@ userSchema.methods.createPasswordResetToken = function() {
 
   return resetToken;
 };
+
+userSchema.methods.updateStreak = function() {
+  const today = new Date();
+  const flagStreak = today.getDate() - this.lastLogin.getDate();
+  if (flagStreak == 1) {
+    this.streak += 1;
+  }
+  else if (flagStreak > 1){
+    this.streak = 1;
+  } 
+}
+
+userSchema.methods.updateLastLogin = function() {
+  this.lastLogin = Date.now();
+}
 
 const User = mongoose.model('User', userSchema);
 

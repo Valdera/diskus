@@ -5,10 +5,14 @@ const authController = require('../controller/authController');
 const router = express.Router();
 
 router
+  .get('/search', discussionController.searchDiscussion);
+
+
+router
   .route('/:id')
   .get(discussionController.getDiscussion)
-  .patch(discussionController.updateDiscussion)
-  .delete(discussionController.deleteDiscussion);
+  .patch(authController.protect, discussionController.updateDiscussion)
+  .delete(authController.protect, discussionController.deleteDiscussion);
 
 router
   .route('/')
