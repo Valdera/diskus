@@ -1,5 +1,6 @@
 const express = require('express');
 const commentController = require('../controller/commentController');
+const authController = require('../controller/authController');
 
 const router = express.Router();
 
@@ -12,6 +13,6 @@ router
 router
   .route('/')
   .get(commentController.getAllComments)
-  .post(commentController.createComment);
+  .post(authController.protect, commentController.createComment);
 
 module.exports = router;

@@ -38,6 +38,8 @@ exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
     if (req.file) req.body.image = req.file.filename;
 
+    if (req.user) req.body.user = req.user.id;
+
     const doc = await Model.create(req.body);
 
     res.status(201).json({

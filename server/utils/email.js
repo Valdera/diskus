@@ -11,6 +11,7 @@ const sendEmail = async options => {
       pass: process.env.EMAIL_PASSWORD
     }
   });
+
   // Define the email options
   const mailOptions = {
     from: 'Fauzan Valdera <valdera@mail.io>',
@@ -18,6 +19,7 @@ const sendEmail = async options => {
     subject: options.subject,
     text: options.message
   };
+
   // Send the email
   await transporter.sendMail(mailOptions);
 };

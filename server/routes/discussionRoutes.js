@@ -1,5 +1,6 @@
 const express = require('express');
 const discussionController = require('../controller/discussionController');
+const authController = require('../controller/authController');
 
 const router = express.Router();
 
@@ -12,6 +13,6 @@ router
 router
   .route('/')
   .get(discussionController.getAllDiscussions)
-  .post(discussionController.createDiscussion);
+  .post(authController.protect, discussionController.createDiscussion);
 
 module.exports = router;

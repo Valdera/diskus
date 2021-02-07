@@ -1,22 +1,44 @@
 const mongoose = require('mongoose');
 
-const discussionSchema = new mongoose.Schema({
+const discussionSchema = new mongoose.Schema(
+  {
     text: {
-        type: String,
-        required: [true, 'A discussion must have a text'],
-        trim: true
+      type: String,
+      required: [true, 'A discussion must have a text'],
+      trim: true
     },
     vote: {
-        type: Number,
-        default: 0 
+      type: Number,
+      default: 0
     },
     createdDate: {
-        type: Date
+      type: Date
     },
     user: {
-        type: String
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'Discussion must belong to an user']
+    },
+    comments: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Comment'
+      }
+    ],
+    categories: {
+      type: [String],
+      default: ['Others']
     }
-    
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
+);
+
+discussionSchema.pre('save', function(next) {
+  this.createdDate = Date.now();
+  next();
 });
 
 const Discussion = mongoose.model('Discussion', discussionSchema);
