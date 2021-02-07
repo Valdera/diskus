@@ -27,7 +27,10 @@ const Post = ({ history }) => {
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam. Lorem ipsum dolor...<span> See more</span>
         </p>
-        <img src="./img/test-image.jpg" alt="Post" />
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/diskus-app.appspot.com/o/discussion_home_1612711183036.png?alt=media&token=4fd06113-eb9b-499b-ab17-d515186c5343"
+          alt="Post"
+        />
         <div className="post__categories">
           <Category />
           <Category />

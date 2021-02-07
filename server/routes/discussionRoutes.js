@@ -4,14 +4,17 @@ const authController = require('../controller/authController');
 
 const router = express.Router();
 
-router
-  .get('/search', discussionController.searchDiscussion);
-
+router.get('/search', discussionController.searchDiscussion);
 
 router
   .route('/:id')
   .get(discussionController.getDiscussion)
-  .patch(authController.protect, discussionController.updateDiscussion)
+  .patch(
+    authController.protect,
+    discussionController.uploadDiscussionImage,
+    discussionController.uploadStorageDiscussion,
+    discussionController.updateDiscussion
+  )
   .delete(authController.protect, discussionController.deleteDiscussion);
 
 router

@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const discussionSchema = new mongoose.Schema(
   {
+    title: {
+      type: String,
+      required: [true, 'A discussion must have a title'],
+      trim: true
+    },
     text: {
       type: String,
       required: [true, 'A discussion must have a text'],
@@ -28,7 +33,8 @@ const discussionSchema = new mongoose.Schema(
     categories: {
       type: [String],
       default: ['Others']
-    }
+    },
+    image: String
   },
   {
     toJSON: { virtuals: true },

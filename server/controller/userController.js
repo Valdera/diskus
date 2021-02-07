@@ -2,6 +2,8 @@ const catchAsync = require('../utils/catchAsync');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const factory = require('../controller/handlerFactory');
+const { upload } = require('../utils/imageUpload');
+const firebaseController = require('./firebaseController');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -10,6 +12,9 @@ const filterObj = (obj, ...allowedFields) => {
   });
   return newObj;
 };
+
+exports.uploadUserImage = upload.single('file');
+exports.uploadStorageUser = firebaseController.uploadStorageFirebase(User);
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user post password data

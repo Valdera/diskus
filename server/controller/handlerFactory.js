@@ -1,26 +1,25 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
-const { model } = require('mongoose');
 
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
-    // Delete comment and Discussion
     const docFind = await Model.findById(req.params.id);
-    if (['Comment', 'Discussion'].includes(Model.modelName))
-    {
-      
-      if (docFind.user != req.user.id)
-      {
-        return next(new AppError(`No document found with that ID`, 404));
+
+    if (!docFind) {
+      return next(new AppError('No document found with that ID', 404));
+    }
+
+    if (['Comment', 'Discussion'].includes(Model.modelName)) {
+      if (String(docFind.user) !== req.user.id) {
+        return next(
+          new AppError(`You don't have permission to edit this document`, 404)
+        );
       }
     }
-    
-    // Delete the rest
-    const doc = await Model.findByIdAndDelete(req.params.id);
-    if (!doc) {
-      return next(new AppError(`No document found with that ID`, 404));
-    }
+
+    await Model.findByIdAndDelete(req.params.id);
+
     res.status(200).json({
       status: 'success',
       data: null
@@ -29,25 +28,24 @@ exports.deleteOne = Model =>
 
 exports.updateOne = Model =>
   catchAsync(async (req, res, next) => {
-    // Update comment and Discussion
     const docFind = await Model.findById(req.params.id);
-    if (['Comment', 'Discussion'].includes(Model.modelName))
-    {
-      
-      if (docFind.user != req.user.id)
-      {
-        return next(new AppError(`No document found with that ID`, 404));
+
+    if (!docFind) {
+      return next(new AppError('No document found with that ID', 404));
+    }
+
+    if (['Comment', 'Discussion'].includes(Model.modelName)) {
+      if (String(docFind.user) !== req.user.id) {
+        return next(
+          new AppError(`You don't have permission to edit this document`, 404)
+        );
       }
     }
-    // Update the rest
+
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true
     });
-
-    if (!doc) {
-      return next(new AppError('No document found with that ID', 404));
-    }
 
     res.status(200).json({
       status: 'success',
@@ -96,7 +94,7 @@ exports.getOne = (Model, populateOpt) =>
 
 exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
-    let filter = {};
+    const filter = {};
 
     // if (req.params.examId) filter = { exam: req.params.examId };
 
@@ -115,4 +113,3 @@ exports.getAll = Model =>
       }
     });
   });
-
