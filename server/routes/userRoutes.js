@@ -21,6 +21,9 @@ router.patch(
   userController.updateMe
 );
 
+router.patch('/following', userController.follow);
+router.patch('/unfollow', userController.unfollow);
+
 router.use(authController.restrictTo('admin'));
 
 router

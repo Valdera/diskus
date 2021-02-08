@@ -56,8 +56,38 @@ exports.getMe = (req, res, next) => {
   next();
 };
 
-exports.getUser = factory.getOne(User);
+exports.getUser = factory.getOne(User, 'discussions');
 exports.createUser = factory.createOne(User);
 exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);
 exports.getAllUsers = factory.getAll(User);
+
+exports.follow = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.user.id, {
+    following: req.user.following.push(req.params.id)
+  });
+  await User.findByIdAndUpdate(req.params.id, {
+    $push: { follower: req.user.id }
+  });
+  res.status(200).json({
+    status: 'succsess',
+    data: {
+      user
+    }
+  });
+});
+
+exports.unfollow = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.user.id, {
+    $pull: { following: req.params.id }
+  });
+  await User.findByIdAndUpdate(req.params.id, {
+    $pull: { follower: req.user.id }
+  });
+  res.status(200).json({
+    status: 'succsess',
+    data: {
+      user
+    }
+  });
+});

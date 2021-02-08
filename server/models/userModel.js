@@ -3,74 +3,96 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'A user must have a name'],
-    trim: true
-  },
-  email: {
-    type: String,
-    unique: true,
-    required: [true, 'A user must have an email'],
-    lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email']
-  },
-  role: {
-    type: String,
-    enum: ['admin', 'user'],
-    default: 'user'
-  },
-  description: {
-    type: String,
-    default: ''
-  },
-  lastLogin: {
-    type: Date
-  },
-  password: {
-    type: String,
-    required: [true, 'Please provide a password'],
-    minlength: 8,
-    select: false
-  },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please confirm your password'],
-    validate: {
-      validator: function(el) {
-        return el === this.password;
-      },
-      message: 'Password are not the same'
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'A user must have a name'],
+      trim: true
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: [true, 'A user must have an email'],
+      lowercase: true,
+      validate: [validator.isEmail, 'Please provide a valid email']
+    },
+    role: {
+      type: String,
+      enum: ['admin', 'user'],
+      default: 'user'
+    },
+    description: {
+      type: String,
+      default: ''
+    },
+    lastLogin: {
+      type: Date
+    },
+    password: {
+      type: String,
+      required: [true, 'Please provide a password'],
+      minlength: 8,
+      select: false
+    },
+    passwordConfirm: {
+      type: String,
+      required: [true, 'Please confirm your password'],
+      validate: {
+        validator: function(el) {
+          return el === this.password;
+        },
+        message: 'Password are not the same'
+      }
+    },
+    passwordChangedAt: {
+      type: Date
+    },
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    active: {
+      type: Boolean,
+      default: true,
+      select: false
+    },
+    image: {
+      type: String,
+      default:
+        'https://firebasestorage.googleapis.com/v0/b/diskus-app.appspot.com/o/default-user.jpg?alt=media&token=fc4f4ab3-50c0-450a-880e-8b888616346c'
+    },
+    streak: {
+      type: Number,
+      default: 0
+    },
+    following: {
+      type: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+        }
+      ],
+      default: []
+    },
+    follower: {
+      type: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+        }
+      ],
+      default: []
     }
   },
-  passwordChangedAt: {
-    type: Date
-  },
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  active: {
-    type: Boolean,
-    default: true,
-    select: false
-  },
-  image: {
-    type: String,
-    default:
-      'https://firebasestorage.googleapis.com/v0/b/diskus-app.appspot.com/o/default-user.jpg?alt=media&token=fc4f4ab3-50c0-450a-880e-8b888616346c'
-  },
-  streak: {
-    type: Number,
-    default: 0
-  },
-  discussions: {
-    type: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Discussion'
-      }
-    ]
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   }
+);
+
+userSchema.virtual('discussions', {
+  ref: 'Discussion',
+  foreignField: 'user',
+  localField: '_id'
 });
 
 userSchema.pre('save', async function(next) {
