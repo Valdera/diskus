@@ -15,4 +15,8 @@ router
   .get(commentController.getAllComments)
   .post(authController.protect, commentController.createComment);
 
+router
+  .route('/:discussionId')
+  .post(authController.protect, commentController.createComment);
+
 module.exports = router;

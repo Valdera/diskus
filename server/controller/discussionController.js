@@ -11,7 +11,7 @@ exports.uploadStorageDiscussion = firebaseController.uploadStorageFirebase(
   Discussion
 );
 
-exports.getDiscussion = factory.getOne(Discussion);
+exports.getDiscussion = factory.getOne(Discussion, 'comments');
 exports.createDiscussion = factory.createOne(Discussion);
 exports.updateDiscussion = factory.updateOne(Discussion);
 exports.deleteDiscussion = factory.deleteOne(Discussion);

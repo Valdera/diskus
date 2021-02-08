@@ -11,7 +11,7 @@ exports.uploadStorageFirebase = Model =>
         req.file.originalname.split('.')[0]
       }_${Date.now()}`;
 
-      const token = '123';
+      const token = 'fc4f4ab3-50c0-450a-880e-8b888616346c';
 
       const blob = firebase.bucket.file(newFileName);
 

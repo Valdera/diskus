@@ -55,11 +55,21 @@ const userSchema = new mongoose.Schema({
     select: false
   },
   image: {
-    type: String
+    type: String,
+    default:
+      'https://firebasestorage.googleapis.com/v0/b/diskus-app.appspot.com/o/default-user.jpg?alt=media&token=fc4f4ab3-50c0-450a-880e-8b888616346c'
   },
   streak: {
     type: Number,
     default: 0
+  },
+  discussions: {
+    type: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Discussion'
+      }
+    ]
   }
 });
 
@@ -71,6 +81,11 @@ userSchema.pre('save', async function(next) {
   // Delete passwordConfirm field
   this.passwordConfirm = undefined;
   next();
+});
+
+userSchema.pre('save', async function(next) {
+  if (!this.isNew) return next();
+  this.lastLogin = Date.now();
 });
 
 userSchema.pre('save', function(next) {
@@ -123,10 +138,6 @@ userSchema.methods.updateStreak = function() {
   } else if (flagStreak > 1) {
     this.streak = 1;
   }
-};
-
-userSchema.methods.updateLastLogin = function() {
-  this.lastLogin = Date.now();
 };
 
 const User = mongoose.model('User', userSchema);

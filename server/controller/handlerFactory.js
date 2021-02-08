@@ -1,13 +1,14 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
+const Discussion = require('../models/discussionModel');
 
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     const docFind = await Model.findById(req.params.id);
 
     if (!docFind) {
-      return next(new AppError('No document found with that ID', 404));
+      return next(new AppError('No document found with that ID', 400));
     }
 
     if (['Comment', 'Discussion'].includes(Model.modelName)) {
@@ -31,7 +32,7 @@ exports.updateOne = Model =>
     const docFind = await Model.findById(req.params.id);
 
     if (!docFind) {
-      return next(new AppError('No document found with that ID', 404));
+      return next(new AppError('No document found with that ID', 400));
     }
 
     if (['Comment', 'Discussion'].includes(Model.modelName)) {
@@ -60,6 +61,16 @@ exports.createOne = Model =>
     if (req.file) req.body.image = req.file.filename;
 
     if (req.user) req.body.user = req.user.id;
+
+    if (req.params.discussionId) req.body.discussion = req.params.discussionId;
+
+    if (['Comment'].includes(Model.modelName)) {
+      const discussion = await Discussion.findById(req.body.discussion);
+
+      if (!discussion) {
+        return next(new AppError(`There are no discussion with this ID`, 400));
+      }
+    }
 
     const doc = await Model.create(req.body);
 

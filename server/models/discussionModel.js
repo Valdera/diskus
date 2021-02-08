@@ -24,12 +24,6 @@ const discussionSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, 'Discussion must belong to an user']
     },
-    comments: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Comment'
-      }
-    ],
     categories: {
       type: [String],
       default: ['Others']
@@ -41,6 +35,20 @@ const discussionSchema = new mongoose.Schema(
     toObject: { virtuals: true }
   }
 );
+
+discussionSchema.virtual('comments', {
+  ref: 'Comment',
+  foreignField: 'discussion',
+  localField: '_id'
+});
+
+discussionSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'user',
+    select: 'name image'
+  });
+  next();
+});
 
 discussionSchema.pre('save', function(next) {
   this.createdDate = Date.now();

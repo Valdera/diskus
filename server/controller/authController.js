@@ -15,7 +15,7 @@ const signToken = id => {
 const createSendToken = async (user, statusCode, res) => {
   const token = signToken(user._id);
   user.updateStreak();
-  user.updateLastLogin();
+  user.lastLogin = Date.now();
   await user.save({ validateBeforeSave: false });
 
   const cookieOptions = {
@@ -24,7 +24,7 @@ const createSendToken = async (user, statusCode, res) => {
     ),
     httpOnly: true
   };
-   
+
   if (process.env.NODE_ENV === 'production') {
     cookieOptions.secure = true;
   }
@@ -32,7 +32,7 @@ const createSendToken = async (user, statusCode, res) => {
   res.cookie('jwt', token, cookieOptions);
 
   user.password = undefined;
-  
+
   res.status(statusCode).json({
     status: 'success',
     token,
