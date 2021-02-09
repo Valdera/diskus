@@ -9,7 +9,7 @@ export const setCurrentUser = (user) => ({
   payload: user
 });
 
-export const emailSignInStart = (emailAndPassword) => ({
+export const signInStart = (emailAndPassword) => ({
   type: AuthActionTypes.SIGN_IN_START,
   payload: emailAndPassword
 });

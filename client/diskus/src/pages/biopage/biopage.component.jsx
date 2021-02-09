@@ -10,7 +10,7 @@ const BioPage = () => {
       <div className="biopage__content">
         <div className="biopage__picture">
           <ProfilePicture src="./img/default-user.jpg" type="large" />
-          <RadiusButton type="orange-small">Follow</RadiusButton>
+          <RadiusButton custom="orange-small">Follow</RadiusButton>
         </div>
         <div className="biopage__text">
           <h1>Fauzan Valdera</h1>

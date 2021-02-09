@@ -1,4 +1,5 @@
 import { takeLatest, put, all, call } from 'redux-saga/effects';
+import Cookies from 'universal-cookie';
 import { AuthActionTypes } from './auth.types';
 import {
   updateMeSuccess,
@@ -14,11 +15,21 @@ import {
   forgotPasswordSuccess,
   forgotPasswordFailure
 } from './auth.actions';
+import {
+  signIn,
+  signUp,
+  forgotPassword,
+  deleteMe,
+  updateMe
+} from '../../api/auth.request';
 
 //* WORKERS
 function* workerSignUp({ payload }) {
   try {
-    // yield put(emailSignUpSuccess(user));
+    const { user, token } = yield signUp(payload);
+    const cookies = new Cookies();
+    yield cookies.set('jwt', token, { path: '/' });
+    yield put(emailSignUpSuccess(user));
   } catch (err) {
     yield put(emailSignUpFailure(err));
   }
@@ -26,6 +37,8 @@ function* workerSignUp({ payload }) {
 
 function* workerSignOut() {
   try {
+    const cookies = new Cookies();
+    yield cookies.remove('jwt', { path: '/' });
     yield put(signOutSuccess());
   } catch (err) {
     yield put(signOutFailure(err));
@@ -34,7 +47,10 @@ function* workerSignOut() {
 
 function* workerSignIn({ payload }) {
   try {
-    // yield put(signInSuccess(user));
+    const { user, token } = yield signIn(payload);
+    const cookies = new Cookies();
+    yield cookies.set('jwt', token, { path: '/' });
+    yield put(signInSuccess(user));
   } catch (err) {
     yield put(signInFailure(err));
   }
@@ -42,7 +58,8 @@ function* workerSignIn({ payload }) {
 
 function* workerForgotPassword({ payload }) {
   try {
-    // yield put(forgotPasswordSuccess(message));
+    const message = yield forgotPassword(payload);
+    yield put(forgotPasswordSuccess(message));
   } catch (err) {
     yield put(forgotPasswordFailure(err));
   }
@@ -50,7 +67,13 @@ function* workerForgotPassword({ payload }) {
 
 function* workerUpdateMe({ payload }) {
   try {
-    // yield put(updateMeSuccess(user));
+    const cookies = new Cookies();
+    yield cookies.get('jwt', { path: '/' });
+    const user = yield updateMe({
+      jwt: cookies.cookies.jwt,
+      updatedData: payload
+    });
+    yield put(updateMeSuccess(user));
   } catch (err) {
     yield put(updateMeFailure(err));
   }
@@ -58,11 +81,15 @@ function* workerUpdateMe({ payload }) {
 
 function* workerDeleteMe() {
   try {
+    const cookies = new Cookies();
+    yield cookies.get('jwt', { path: '/' });
+    yield deleteMe(cookies.cookies.jwt);
     yield put(deleteMeSuccess());
   } catch (err) {
     yield put(deleteMeFailure(err));
   }
 }
+
 //* WATCHERS
 function* watchSignUpStart() {
   yield takeLatest(AuthActionTypes.EMAIL_SIGN_UP_START, workerSignUp);

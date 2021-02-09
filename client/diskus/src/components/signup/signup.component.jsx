@@ -26,7 +26,7 @@ const Signup = () => {
         <input type="password" />
       </div>
       <div className="signup__button">
-        <RadiusButton type="orange">Sign Up</RadiusButton>
+        <RadiusButton custom="orange">Sign Up</RadiusButton>
       </div>
     </form>
   );

@@ -21,8 +21,8 @@ const Submit = () => {
         <textarea></textarea>
       </div>
       <div className="submit__button">
-        <RadiusButton type="green">Add Image</RadiusButton>
-        <RadiusButton type="flip-orange">Submit</RadiusButton>
+        <RadiusButton custom="green">Add Image</RadiusButton>
+        <RadiusButton custom="flip-orange">Submit</RadiusButton>
       </div>
     </div>
   );

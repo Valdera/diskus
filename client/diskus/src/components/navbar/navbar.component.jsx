@@ -23,7 +23,7 @@ const Navbar = ({ history }) => {
         </button>
       </form>
       <div className="navbar__btn">
-        <RadiusButton type="orange" onClick={() => history.push('/login')}>
+        <RadiusButton custom="orange" onClick={() => history.push('/login')}>
           Login
         </RadiusButton>
       </div>
