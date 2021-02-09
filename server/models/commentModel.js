@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { sentimentAnalysis } = require('../utils/sentiment');
 
 const commentSchema = mongoose.Schema(
   {
@@ -12,7 +13,7 @@ const commentSchema = mongoose.Schema(
       default: 0
     },
     createdDate: {
-      type: String
+      type: Date
     },
     user: {
       type: mongoose.Schema.ObjectId,
@@ -23,6 +24,9 @@ const commentSchema = mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'Discussion',
       required: [true, 'Discussion must belong to a discussion']
+    },
+    sentiment: {
+      type: Number
     }
   },
   {
@@ -30,6 +34,12 @@ const commentSchema = mongoose.Schema(
     toObject: { virtuals: true }
   }
 );
+
+commentSchema.pre('save', async function(next) {
+  this.createdDate = Date.now();
+  this.sentiment = await sentimentAnalysis(this.text);
+  next();
+});
 
 const Comment = mongoose.model('Comment', commentSchema);
 
