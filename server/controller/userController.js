@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const catchAsync = require('../utils/catchAsync');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
@@ -63,12 +64,24 @@ exports.deleteUser = factory.deleteOne(User);
 exports.getAllUsers = factory.getAll(User);
 
 exports.follow = catchAsync(async (req, res, next) => {
+  if (req.params.id === req.user.id) {
+    return next(new AppError("You can't follow yourself", 404));
+  }
+
+  if (req.user.following.includes(mongoose.Types.ObjectId(req.params.id))) {
+    return next(new AppError('You already follow this user', 409));
+  }
+
   const user = await User.findByIdAndUpdate(req.user.id, {
-    following: req.user.following.push(req.params.id)
+    $push: { following: mongoose.Types.ObjectId(req.params.id) }
   });
+
   await User.findByIdAndUpdate(req.params.id, {
-    $push: { follower: req.user.id }
+    $push: { follower: mongoose.Types.ObjectId(req.user.id) }
   });
+
+  user.following.push(mongoose.Types.ObjectId(req.user.id));
+
   res.status(200).json({
     status: 'succsess',
     data: {
@@ -78,16 +91,40 @@ exports.follow = catchAsync(async (req, res, next) => {
 });
 
 exports.unfollow = catchAsync(async (req, res, next) => {
+  if (req.params.id === req.user.id) {
+    return next(new AppError("You can't unfollow yourself", 404));
+  }
+
+  if (!req.user.following.includes(mongoose.Types.ObjectId(req.params.id))) {
+    return next(new AppError("You didn't follow this user", 404));
+  }
+
   const user = await User.findByIdAndUpdate(req.user.id, {
-    $pull: { following: req.params.id }
+    $pull: { following: mongoose.Types.ObjectId(req.params.id) }
   });
+
   await User.findByIdAndUpdate(req.params.id, {
-    $pull: { follower: req.user.id }
+    $pull: { follower: mongoose.Types.ObjectId(req.user.id) }
   });
+
+  user.following.pop(mongoose.Types.ObjectId(req.user.id));
+
   res.status(200).json({
     status: 'succsess',
     data: {
       user
+    }
+  });
+});
+
+exports.getFollowing = catchAsync(async (req, res, next) => {
+  const result = await User.find({ _id: req.user.following });
+
+  res.status(200).json({
+    status: 'succsess',
+    result: result.length,
+    data: {
+      result
     }
   });
 });
