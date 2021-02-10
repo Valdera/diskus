@@ -4,29 +4,27 @@ import ProfilePicture from '../../components/profile-picture/profile-picture.com
 import Category from '../../components/category/category.component';
 import './discussion.styles.scss';
 
-const Discussion = () => {
+const Discussion = ({ discussion }) => {
   return (
     <div className="discussion">
       <div className="discussion__header">
-        <Vote />
+        <Vote item={discussion} />
         <div className="discusson__profile">
-          <ProfilePicture src="./img/default-user.jpg" type="discuss" />
+          <ProfilePicture src={discussion.user.image} type="discuss" />
         </div>
-        <h2>Lorem Ipsum Sir Dolor ?</h2>
+        <h2>{discussion.title}</h2>
       </div>
       <div className="discussion__content">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam.
-        </p>
-        <img src="./img/test-image.jpg" alt="Post" />
+        <p>{discussion.text}</p>
+        {discussion.image ? <img src="./img/test-image.jpg" alt="Post" /> : ''}
+
         <div className="discussion__categories">
-          <Category />
-          <Category />
+          {discussion.categories.map((item) => (
+            <Category key={item}>{item}</Category>
+          ))}
         </div>
         <span className="discussion__date">
-          Posted 1 days ago by fauzan valdera
+          {`Posted 1 days ago by ${discussion.user.name}`}
         </span>
       </div>
     </div>

@@ -20,10 +20,11 @@ router.patch(
   userController.uploadStorageUser,
   userController.updateMe
 );
+router.get('/discussion', userController.getMyDiscussion);
 
 router.patch('/follow/:id', userController.follow);
 router.patch('/unfollow/:id', userController.unfollow);
-router.get('/getFollowing', userController.getFollowing);
+router.get('/follow', userController.getFollowing);
 
 router.use(authController.restrictTo('admin'));
 

@@ -4,7 +4,7 @@ const authController = require('../controller/authController');
 
 const router = express.Router();
 
-router.get('/search', discussionController.searchDiscussion);
+router.post('/search', discussionController.searchDiscussion);
 
 router
   .route('/:id')

@@ -4,7 +4,7 @@ const AppError = require('../utils/appError');
 
 exports.uploadStorageFirebase = Model =>
   catchAsync(async (req, res, next) => {
-    if (!req.file) return next;
+    if (!req.file) return next();
 
     try {
       const newFileName = `${Model.modelName}_${

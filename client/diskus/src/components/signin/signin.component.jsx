@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+
 import RadiusButton from '../../components/radius-button/radius-button.component';
 import './signin.styles.scss';
 import { signInStart } from '../../redux/auth/auth.actions';
-import { connect } from 'react-redux';
 
 const Signin = ({ signInStart }) => {
   const [email, setEmail] = useState('');

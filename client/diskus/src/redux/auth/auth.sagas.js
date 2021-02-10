@@ -20,7 +20,9 @@ import {
   signUp,
   forgotPassword,
   deleteMe,
-  updateMe
+  updateMe,
+  getFollowing,
+  getDisucssions
 } from '../../api/auth.request';
 
 //* WORKERS
@@ -50,6 +52,8 @@ function* workerSignIn({ payload }) {
     const { user, token } = yield signIn(payload);
     const cookies = new Cookies();
     yield cookies.set('jwt', token, { path: '/' });
+    user.followingDetail = yield getFollowing(cookies.cookies.jwt);
+    user.discussions = yield getDisucssions(cookies.cookies.jwt);
     yield put(signInSuccess(user));
   } catch (err) {
     yield put(signInFailure(err));
@@ -73,6 +77,8 @@ function* workerUpdateMe({ payload }) {
       jwt: cookies.cookies.jwt,
       updatedData: payload
     });
+    user.followingDetail = yield getFollowing(cookies.cookies.jwt);
+    user.discussions = yield getDisucssions(cookies.cookies.jwt);
     yield put(updateMeSuccess(user));
   } catch (err) {
     yield put(updateMeFailure(err));

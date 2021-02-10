@@ -25,9 +25,15 @@ const App = ({ currentUser }) => {
             currentUser ? <Redirect to="/timeline" /> : <HomePage />
           }
         />
-        <Route exact path="/profile" component={ProfilePage} />
+        <Route
+          exact
+          path="/profile"
+          render={() =>
+            !currentUser ? <Redirect to="/login" /> : <ProfilePage />
+          }
+        />
         <Route exact path="/timeline" component={TimelinePage} />
-        <Route exact path="/search" component={SearchPage} />
+        <Route exact path="/search/:search" component={SearchPage} />
         <Route exact path="/bio" component={BioPage} />
         <Route
           exact
@@ -36,7 +42,7 @@ const App = ({ currentUser }) => {
             currentUser ? <Redirect to="/timeline" /> : <LoginPage />
           }
         />
-        <Route exact path="/discussion" component={DiscussionPage} />
+        <Route exact path="/discussion/:id" component={DiscussionPage} />
       </Switch>
     </div>
   );

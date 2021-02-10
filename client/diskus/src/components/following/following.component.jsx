@@ -3,11 +3,11 @@ import ProfilePicture from '../../components/profile-picture/profile-picture.com
 
 import './following.styles.scss';
 
-const Following = () => {
+const Following = ({ user }) => {
   return (
     <div className="following">
-      <ProfilePicture src="./img/default-user.jpg" type="small-nohover" />
-      <div className="following__name">Fauzan Valdera</div>
+      <ProfilePicture src={user.image} type="small-nohover" />
+      <div className="following__name">{user.name.substring(0, 18)}</div>
     </div>
   );
 };

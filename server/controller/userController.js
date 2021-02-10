@@ -5,6 +5,7 @@ const AppError = require('../utils/appError');
 const factory = require('../controller/handlerFactory');
 const { upload } = require('../utils/imageUpload');
 const firebaseController = require('./firebaseController');
+const Discussion = require('../models/discussionModel');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -125,6 +126,18 @@ exports.getFollowing = catchAsync(async (req, res, next) => {
     result: result.length,
     data: {
       result
+    }
+  });
+});
+
+exports.getMyDiscussion = catchAsync(async (req, res, next) => {
+  const discussions = await Discussion.find({ user: req.user.id });
+
+  res.status(200).json({
+    status: 'succsess',
+    result: discussions.length,
+    data: {
+      discussions
     }
   });
 });

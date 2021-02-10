@@ -25,6 +25,9 @@
       &:not(:first-child) {
         margin-top: 1rem;
       }
+      &:last-child {
+        margin-top: 2rem;
+      }
     }
 
     h2 {
@@ -58,6 +61,7 @@
   }
 
   &__categories {
+    margin-top: auto;
     display: flex;
     & > * {
       &:not(:last-child) {

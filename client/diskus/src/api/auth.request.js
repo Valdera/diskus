@@ -8,7 +8,6 @@ export const signIn = async ({ email, password }) => {
     email: email,
     password: password
   });
-  console.log(doc);
   const token = doc.data.token;
   const user = doc.data.data.user;
   return { token, user };
@@ -50,4 +49,24 @@ export const deleteMe = async (jwt) => {
     }
   });
   return doc;
+};
+
+export const getFollowing = async (jwt) => {
+  const doc = await axios.get(`${url}/api/users/follow`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  });
+  const result = doc.data.data.result;
+  return result;
+};
+
+export const getDisucssions = async (jwt) => {
+  const doc = await axios.get(`${url}/api/users/discussion`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  });
+  const result = doc.data.data.discussions;
+  return result;
 };

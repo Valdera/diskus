@@ -1,0 +1,71 @@
+@import '../../sass/main.scss';
+
+$size: 40px;
+$point: aquamarine;
+$gray1: #eee;
+$gray2: #ccc;
+$gray3: #aaa;
+$bdw: 4px;
+$big: 1.6;
+$small: 0.625;
+
+@mixin center {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+@keyframes rota1 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rota2 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.c {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+  position: relative;
+  height: 100%;
+
+  > div {
+    @include center;
+  }
+}
+
+.rec {
+  width: $size;
+  height: $size;
+  border: $bdw solid $gray2;
+  box-sizing: border-box;
+}
+
+.spinner5 {
+  animation: rota1 1.3s linear infinite;
+  // filter: blur(2px);
+  // border-width: 3px;
+  border: $color-primary 3px solid;
+}
+
+.spinner6 {
+  animation: rota2 1.3s infinite;
+  border-color: $color-secondary;
+  border-width: 3px;
+}

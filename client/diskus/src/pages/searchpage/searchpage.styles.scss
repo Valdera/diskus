@@ -30,12 +30,18 @@
   }
 
   &__post {
-    margin-top: 4rem;
+    margin-top: 3rem;
     @include respond(phone) {
       margin-top: 2rem;
     }
     & > * {
       margin-top: 2rem;
     }
+  }
+
+  &__spinner {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }

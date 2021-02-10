@@ -41,6 +41,14 @@ commentSchema.pre('save', async function(next) {
   next();
 });
 
+commentSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'user',
+    select: 'name image'
+  });
+  next();
+});
+
 const Comment = mongoose.model('Comment', commentSchema);
 
 module.exports = Comment;
