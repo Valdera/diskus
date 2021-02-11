@@ -15,7 +15,9 @@ import {
   forgotPasswordSuccess,
   forgotPasswordFailure,
   getMeSuccess,
-  getMeFailure
+  getMeFailure,
+  getUserSuccess,
+  getUserFailure
 } from './auth.actions';
 import {
   signIn,
@@ -24,8 +26,9 @@ import {
   deleteMe,
   updateMe,
   getFollowing,
-  getDisucssions,
-  getMe
+  getDiscussions,
+  getMe,
+  getUserById
 } from '../../api/auth.request';
 
 //* WORKERS
@@ -56,7 +59,7 @@ function* workerSignIn({ payload }) {
     const cookies = new Cookies();
     yield cookies.set('jwt', token, { path: '/' });
     user.followingDetail = yield getFollowing(cookies.cookies.jwt);
-    user.discussions = yield getDisucssions(cookies.cookies.jwt);
+    user.discussions = yield getDiscussions(cookies.cookies.jwt);
     yield put(signInSuccess(user));
   } catch (err) {
     yield put(signInFailure(err));
@@ -81,7 +84,7 @@ function* workerUpdateMe({ payload }) {
       updatedData: payload
     });
     user.followingDetail = yield getFollowing(cookies.cookies.jwt);
-    user.discussions = yield getDisucssions(cookies.cookies.jwt);
+    user.discussions = yield getDiscussions(cookies.cookies.jwt);
     yield put(updateMeSuccess(user));
   } catch (err) {
     yield put(updateMeFailure(err));
@@ -94,10 +97,25 @@ function* workerGetMe() {
     yield cookies.get('jwt', { path: '/' });
     const user = yield getMe(cookies.cookies.jwt);
     user.followingDetail = yield getFollowing(cookies.cookies.jwt);
-    user.discussions = yield getDisucssions(cookies.cookies.jwt);
+    user.discussions = yield getDiscussions(cookies.cookies.jwt);
     yield put(getMeSuccess(user));
   } catch (err) {
     yield put(getMeFailure(err));
+  }
+}
+
+function* workerGetUser({ payload }) {
+  try {
+    const cookies = new Cookies();
+    yield cookies.get('jwt', { path: '/' });
+    const user = yield getUserById({
+      jwt: cookies.cookies.jwt,
+      id: payload
+    });
+    // console.log(user);
+    yield put(getUserSuccess(user));
+  } catch (err) {
+    yield put(getUserFailure(err));
   }
 }
 
@@ -141,6 +159,10 @@ function* watchGetMeStart() {
   yield takeLatest(AuthActionTypes.GET_ME_START, workerGetMe);
 }
 
+function* watchGetUserStart() {
+  yield takeLatest(AuthActionTypes.GET_USER_START, workerGetUser);
+}
+
 export function* authSagas() {
   yield all([
     call(watchSignInStart),
@@ -149,6 +171,7 @@ export function* authSagas() {
     call(watchForgotPasswordStart),
     call(watchUpdateMeStart),
     call(watchDeleteMeStart),
-    call(watchGetMeStart)
+    call(watchGetMeStart),
+    call(watchGetUserStart)
   ]);
 }

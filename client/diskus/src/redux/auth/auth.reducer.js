@@ -2,6 +2,7 @@ import { AuthActionTypes } from './auth.types';
 
 const INITIAL_STATE = {
   currentUser: null,
+  selectedUser: null,
   error: null,
   message: ''
 };
@@ -48,6 +49,12 @@ const authReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: null,
+        error: null
+      };
+    case AuthActionTypes.GET_USER_SUCCESS:
+      return {
+        ...state,
+        selectedUser: action.payload,
         error: null
       };
     case AuthActionTypes.UPDATE_ME_FAILURE:

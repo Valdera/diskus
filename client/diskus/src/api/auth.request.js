@@ -61,7 +61,7 @@ export const getFollowing = async (jwt) => {
   return result;
 };
 
-export const getDisucssions = async (jwt) => {
+export const getDiscussions = async (jwt) => {
   const doc = await axios.get(`${url}/api/users/discussion`, {
     headers: {
       Authorization: `Bearer ${jwt}`
@@ -73,6 +73,16 @@ export const getDisucssions = async (jwt) => {
 
 export const getMe = async (jwt) => {
   const doc = await axios.get(`${url}/api/users/me`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  });
+  const user = doc.data.data.data;
+  return user;
+};
+
+export const getUserById = async ({ jwt, id }) => {
+  const doc = await axios.get(`${url}/api/users/${id}`, {
     headers: {
       Authorization: `Bearer ${jwt}`
     }

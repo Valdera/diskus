@@ -6,17 +6,11 @@ import { createCommentStart } from '../../redux/comment/comment.actions';
 import { createStructuredSelector } from 'reselect';
 import ProfilePicture from '../../components/profile-picture/profile-picture.component';
 
-const CommentSubmit = ({
-  currentUser,
-  createCommentStart,
-  fetchDiscussion,
-  discussion
-}) => {
+const CommentSubmit = ({ currentUser, createCommentStart, discussion }) => {
   const [text, setText] = useState('');
 
   const createComment = async () => {
     await createCommentStart({ text, discussion });
-    await fetchDiscussion();
     setText('');
   };
 

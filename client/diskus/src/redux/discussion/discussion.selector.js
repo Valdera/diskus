@@ -7,6 +7,11 @@ export const selectDiscussions = createSelector(
   (discussion) => discussion.discussions
 );
 
+export const selectSelectedDiscussion = createSelector(
+  [selectDiscussion],
+  (discussion) => discussion.selectedDiscussion
+);
+
 export const selectDiscussionsLoaded = createSelector(
   [selectDiscussion],
   (discussion) => discussion.isFetching

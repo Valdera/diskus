@@ -5,11 +5,14 @@ import {
   fetchDiscussionsFailure,
   fetchDiscussionsSuccess,
   createDiscussionFailure,
-  createDiscussionSuccess
+  createDiscussionSuccess,
+  getDiscussionSuccess,
+  getDiscussionFailure
 } from './discussion.actions';
 import {
   getAllDiscussions,
-  createDiscussion
+  createDiscussion,
+  getDiscussionById
 } from '../../api/discussion.request';
 import { getMeStart } from '../auth/auth.actions';
 
@@ -27,6 +30,15 @@ function* workerCreateDiscussion({ payload }) {
     yield put(getMeStart());
   } catch (err) {
     yield put(createDiscussionFailure(err));
+  }
+}
+
+function* workerGetDiscussion({ payload }) {
+  try {
+    const discussion = yield getDiscussionById(payload);
+    yield put(getDiscussionSuccess(discussion));
+  } catch (err) {
+    yield put(getDiscussionFailure(err));
   }
 }
 
@@ -55,6 +67,17 @@ function* watchCreateDiscussionStart() {
   );
 }
 
+function* watchGetDiscussionStart() {
+  yield takeLatest(
+    DiscussionActionTypes.GET_DISCUSSION_START,
+    workerGetDiscussion
+  );
+}
+
 export function* discussionSagas() {
-  yield all([call(fetchDiscussionsStart), call(watchCreateDiscussionStart)]);
+  yield all([
+    call(fetchDiscussionsStart),
+    call(watchCreateDiscussionStart),
+    call(watchGetDiscussionStart)
+  ]);
 }

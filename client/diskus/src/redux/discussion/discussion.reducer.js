@@ -2,7 +2,7 @@ import { DiscussionActionTypes } from './discussion.types';
 
 const INITIAL_STATE = {
   discussions: null,
-  currentDiscussion: null,
+  selectedDiscussion: null,
   isFetching: false,
   error: null
 };
@@ -36,6 +36,23 @@ const discussionReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload
+      };
+    case DiscussionActionTypes.GET_DISCUSSION_START:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case DiscussionActionTypes.GET_DISCUSSION_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload
+      };
+    case DiscussionActionTypes.GET_DISCUSSION_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        selectedDiscussion: action.payload
       };
     default:
       return state;

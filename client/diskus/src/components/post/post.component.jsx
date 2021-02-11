@@ -7,13 +7,12 @@ import Vote from '../vote/vote.component';
 import './post.styles.scss';
 
 const Post = ({ history, discussion }) => {
-  console.log(discussion.image);
   return (
     <div className="post">
       <div className="post__icon">
         <ProfilePicture
           src={discussion.user.image}
-          handleClick={() => history.push('/bio')}
+          handleClick={() => history.push(`/bio/${discussion.user.id}`)}
         />
         <div className="post__vote">
           <Vote item={discussion} />

@@ -35,11 +35,26 @@ export const getDiscussionStart = (id) => ({
 });
 
 export const getDiscussionFailure = (err) => ({
-  type: DiscussionActionTypes.GET_DISCUSSION_START,
+  type: DiscussionActionTypes.GET_DISCUSSION_FAILURE,
   payload: err
 });
 
-// export const getDiscussionFailure = (err) => ({
-//   type: DiscussionActionTypes.GET_DISCUSSION_START,
-//   payload: err
-// });
+export const getDiscussionSuccess = (discussion) => ({
+  type: DiscussionActionTypes.GET_DISCUSSION_SUCCESS,
+  payload: discussion
+});
+
+export const voteStart = (payload) => ({
+  type: DiscussionActionTypes.VOTE_START,
+  payload: payload
+});
+
+export const voteFailure = (err) => ({
+  type: DiscussionActionTypes.VOTE_FAILURE,
+  payload: err
+});
+
+export const voteSuccess = (payload) => ({
+  type: DiscussionActionTypes.VOTE_SUCCESS,
+  payload: payload
+});

@@ -107,3 +107,48 @@ export const getMeFailure = (error) => ({
   type: AuthActionTypes.GET_ME_FAILURE,
   payload: error
 });
+
+export const getUserStart = (id) => ({
+  type: AuthActionTypes.GET_USER_START,
+  payload: id
+});
+
+export const getUserSuccess = (user) => ({
+  type: AuthActionTypes.GET_USER_SUCCESS,
+  payload: user
+});
+
+export const getUserFailure = (err) => ({
+  type: AuthActionTypes.GET_USER_FAILURE,
+  payload: err
+});
+
+export const followUserStart = (id) => ({
+  type: AuthActionTypes.FOLLOW_USER_START,
+  payload: id
+});
+
+export const followUserSuccess = (user) => ({
+  type: AuthActionTypes.FOLLOW_USER_SUCCESS,
+  payload: user
+});
+
+export const followUserFailure = (err) => ({
+  type: AuthActionTypes.FOLLOW_USER_FAILURE,
+  payload: err
+});
+
+export const unfollowUserStart = (id) => ({
+  type: AuthActionTypes.UNFOLLOW_USER_START,
+  payload: id
+});
+
+export const unfollowUserSuccess = (user) => ({
+  type: AuthActionTypes.UNFOLLOW_USER_SUCCESS,
+  payload: user
+});
+
+export const unfollowUserFailure = (err) => ({
+  type: AuthActionTypes.UNFOLLOW_USER_START,
+  payload: err
+});

@@ -34,7 +34,7 @@ const App = ({ currentUser }) => {
         />
         <Route exact path="/timeline" component={TimelinePage} />
         <Route exact path="/search/:search" component={SearchPage} />
-        <Route exact path="/bio" component={BioPage} />
+        <Route exact path="/bio/:id" component={BioPage} />
         <Route
           exact
           path="/login"
