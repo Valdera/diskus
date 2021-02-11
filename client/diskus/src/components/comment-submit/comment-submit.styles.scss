@@ -1,0 +1,49 @@
+@import '../../sass/main.scss';
+
+.comment-submit {
+  background-color: $color-primary;
+  border-radius: 20px;
+  padding: 2rem 3rem;
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  grid-column-gap: 1.5rem;
+
+  &__input {
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+    border: 2px solid rgba($color-white, 1);
+    transition: all 0.3s;
+    font-family: inherit;
+    font-size: 1.2rem;
+    color: inherit;
+    height: 7rem;
+    // max-height: 35rem;
+    width: 100%;
+    transition: all 0.3s;
+
+    &:focus {
+      outline: none;
+      border: 2px solid rgba($color-secondary, 1);
+    }
+  }
+
+  &__button {
+    cursor: pointer;
+    background-color: $color-white;
+    font-size: 1.6rem;
+    border-radius: 10px;
+    color: $color-primary;
+    align-self: center;
+    border: none;
+    font-family: $font-primary;
+    padding: 1rem 2rem;
+    transition: all 0.3s;
+
+    &:hover {
+      transform: scale(1.07);
+    }
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+}

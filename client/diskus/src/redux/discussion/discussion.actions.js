@@ -28,3 +28,18 @@ export const createDiscussionFailure = (err) => ({
   type: DiscussionActionTypes.CREATE_DISCUSSION_FAILURE,
   payload: err
 });
+
+export const getDiscussionStart = (id) => ({
+  type: DiscussionActionTypes.GET_DISCUSSION_START,
+  payload: id
+});
+
+export const getDiscussionFailure = (err) => ({
+  type: DiscussionActionTypes.GET_DISCUSSION_START,
+  payload: err
+});
+
+// export const getDiscussionFailure = (err) => ({
+//   type: DiscussionActionTypes.GET_DISCUSSION_START,
+//   payload: err
+// });

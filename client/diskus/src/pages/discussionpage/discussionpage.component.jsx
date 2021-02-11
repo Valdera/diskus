@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import Discussion from '../../components/discussion/discussion.component';
+
 import Comment from '../../components/comment/comment.component';
 import { getDiscussionById } from '../../api/discussion.request';
 import './discussionpage.styles.scss';
 import Spinner from '../../components/spinner/spinner.component';
+import CommentSubmit from '../../components/comment-submit/comment-submit.component';
 
 const DiscussionPage = ({ match }) => {
   const [discussion, setDiscussion] = useState(null);
 
+  const fetchDiscussion = async () => {
+    const discussion = await getDiscussionById(match.params.id);
+    setDiscussion(discussion);
+    console.log(discussion);
+  };
+
   useEffect(() => {
-    async function fetchDiscussion() {
-      const discussion = await getDiscussionById(match.params.id);
-      setDiscussion(discussion);
-      console.log(discussion);
-    }
     fetchDiscussion();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -31,6 +34,10 @@ const DiscussionPage = ({ match }) => {
       {discussion ? (
         <div className="discussionpage__comment">
           <h3>Comment</h3>
+          <CommentSubmit
+            fetchDiscussion={fetchDiscussion}
+            discussion={discussion.id}
+          />
           {discussion.comments.map((comment) => (
             <Comment comment={comment} />
           ))}
