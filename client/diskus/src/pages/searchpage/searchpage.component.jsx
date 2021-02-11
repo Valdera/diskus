@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import Filter from '../../components/filter/filter.component';
@@ -17,28 +17,46 @@ const SearchPage = ({
   isLoaded,
   match
 }) => {
-  useEffect(() => {
-    async function fetchDiscussions() {
-      const categories = ['Others'];
-      const page = 1;
-      const limit = 10;
-      const sort = 'Vote';
-      const search = match.params.search;
-      await fetchDiscussionsStart({
-        categories,
-        page,
-        limit,
-        sort,
-        search
-      });
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState('Vote');
+  const [categories, setCategories] = useState([]);
+
+  const fetchDiscussions = async () => {
+    let categoriesSelected;
+    if (categories.length === 0) {
+      categoriesSelected = ['Others'];
+    } else {
+      categoriesSelected = categories;
     }
+    const limit = 10;
+    const search = match.params.search;
+    await fetchDiscussionsStart({
+      categories: categoriesSelected,
+      page,
+      limit,
+      sort,
+      search
+    });
+  };
+
+  useEffect(() => {
     fetchDiscussions();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const refreshDiscussion = async () => {
+    await fetchDiscussions();
+  };
 
   return (
     <div className="searchpage">
       <div className="searchpage__filter">
-        <Filter />
+        <Filter
+          refreshDiscussion={refreshDiscussion}
+          sort={sort}
+          setSort={setSort}
+          categories={categories}
+          setCategories={setCategories}
+        />
       </div>
       {isLoaded && discussions ? (
         <div className="searchpage__post">

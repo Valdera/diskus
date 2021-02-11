@@ -3,33 +3,35 @@ import styled from '@emotion/styled';
 import { keyframes, css } from '@emotion/core';
 import Select from 'react-dropdown-select';
 
-const StyledSelectDrop = () => {
+const StyledSelectDrop = ({ categories, setCategories }) => {
   //   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   //   const [open, setOpen] = useState(null);
   return (
     <StyledSelect
       multi
-      //   isOpen={open}
       options={[
-        { id: 'asdfa', name: 'test' },
-        { id: 'dd', name: 'test' },
-        { id: 'deeee', name: 'test' },
-        { id: 'dee', name: 'test' },
-        { id: 'ee', name: 'test' },
-        { id: 'e', name: 'test' }
+        { id: '1', name: 'Technology' },
+        { id: '2', name: 'Education' },
+        { id: '3', name: 'Others' },
+        { id: '4', name: 'Health' },
+        { id: '5', name: 'News' },
+        { id: '6', name: 'Entertainment' },
+        { id: '7', name: 'Youth' },
+        { id: '8', name: 'Event' },
+        { id: '9', name: 'Story' },
+        { id: '9', name: 'Sport' },
+        { id: '9', name: 'Games' }
       ]}
-      onChange={(value) => console.log(value)}
-      //   onDropdownCloseRequest={({ close }) => {
-      //     setOpen(true);
-      // sleep(300).then(() => {
-      //   close();
-      //   setOpen(false);
-      // });
-      //   }}
+      values={categories}
+      onChange={(arr) => {
+        let array = [];
+        arr.forEach((item) => array.push(item.name));
+        setCategories(array);
+      }}
       color="#e5640c"
       searchBy="name"
       labelField="name"
-      valueField="id"
+      valueField="name"
     />
   );
 };

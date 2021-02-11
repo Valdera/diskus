@@ -11,6 +11,7 @@ import {
   getAllDiscussions,
   createDiscussion
 } from '../../api/discussion.request';
+import { getMeStart } from '../auth/auth.actions';
 
 //* WORKERS
 
@@ -18,8 +19,12 @@ function* workerCreateDiscussion({ payload }) {
   try {
     const jwt = new Cookies();
     yield jwt.get('jwt', { path: '/' });
-    yield createDiscussion({ jwt: jwt.cookies.jwt, discussionData: payload });
+    yield createDiscussion({
+      jwt: jwt.cookies.jwt,
+      data: payload
+    });
     yield put(createDiscussionSuccess());
+    yield put(getMeStart());
   } catch (err) {
     yield put(createDiscussionFailure(err));
   }

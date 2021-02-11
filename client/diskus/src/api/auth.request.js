@@ -70,3 +70,13 @@ export const getDisucssions = async (jwt) => {
   const result = doc.data.data.discussions;
   return result;
 };
+
+export const getMe = async (jwt) => {
+  const doc = await axios.get(`${url}/api/users/me`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  });
+  const user = doc.data.data.data;
+  return user;
+};

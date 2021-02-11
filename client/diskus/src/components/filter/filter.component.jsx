@@ -3,7 +3,13 @@ import StyledSelectDrop from '../styled-select/styled-select.component';
 import './filter.styles.scss';
 import Submit from '../submit/submit.component';
 
-const Filter = () => {
+const Filter = ({
+  refreshDiscussion,
+  sort,
+  setSort,
+  categories,
+  setCategories
+}) => {
   const [openCategories, setOpenCategories] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [openVote, setOpenVote] = useState(false);
@@ -62,25 +68,51 @@ const Filter = () => {
       </div>
       {openCategories ? (
         <div className="filter__categories">
-          <StyledSelectDrop />
-          <button>Search</button>
+          <StyledSelectDrop
+            categories={categories}
+            setCategories={setCategories}
+          />
+          <button onClick={refreshDiscussion}>Search</button>
         </div>
       ) : (
         ''
       )}
       {openDate ? (
         <div className="filter__date">
-          <button>Last day</button>
-          <button>Last week</button>
-          <button>Last month</button>
+          <button
+            onClick={() => {
+              setSort('createdDate');
+              refreshDiscussion();
+            }}>
+            Latest post
+          </button>
+          <button
+            onClick={() => {
+              setSort('-createdDate');
+              refreshDiscussion();
+            }}>
+            Old post
+          </button>
         </div>
       ) : (
         ''
       )}
       {openVote ? (
         <div className="filter__vote">
-          <button>Last day</button>
-          <button>Last week</button>
+          <button
+            onClick={() => {
+              setSort('vote');
+              refreshDiscussion();
+            }}>
+            Most Vote
+          </button>
+          <button
+            onClick={() => {
+              setSort('-vote');
+              refreshDiscussion();
+            }}>
+            Fewest Vote
+          </button>
         </div>
       ) : (
         ''

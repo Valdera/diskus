@@ -12,7 +12,7 @@ exports.deleteOne = Model =>
     }
 
     if (['Comment', 'Discussion'].includes(Model.modelName)) {
-      if (String(docFind.user) !== req.user.id) {
+      if (String(docFind.user.id) !== req.user.id) {
         return next(
           new AppError(`You don't have permission to edit this document`, 404)
         );
@@ -36,7 +36,7 @@ exports.updateOne = Model =>
     }
 
     if (['Comment', 'Discussion'].includes(Model.modelName)) {
-      if (String(docFind.user) !== req.user.id) {
+      if (String(docFind.user.id) !== req.user.id) {
         return next(
           new AppError(`You don't have permission to edit this document`, 404)
         );

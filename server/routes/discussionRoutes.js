@@ -7,6 +7,11 @@ const router = express.Router();
 router.post('/search', discussionController.searchDiscussion);
 
 router
+  .route('/')
+  .get(discussionController.getAllDiscussions)
+  .post(authController.protect, discussionController.createDiscussion);
+
+router
   .route('/:id')
   .get(discussionController.getDiscussion)
   .patch(
@@ -16,10 +21,5 @@ router
     discussionController.updateDiscussion
   )
   .delete(authController.protect, discussionController.deleteDiscussion);
-
-router
-  .route('/')
-  .get(discussionController.getAllDiscussions)
-  .post(authController.protect, discussionController.createDiscussion);
 
 module.exports = router;

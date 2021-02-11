@@ -16,7 +16,7 @@ const Discussion = ({ discussion }) => {
       </div>
       <div className="discussion__content">
         <p>{discussion.text}</p>
-        {discussion.image ? <img src="./img/test-image.jpg" alt="Post" /> : ''}
+        {discussion.image ? <img src={discussion.image} alt="Post" /> : ''}
 
         <div className="discussion__categories">
           {discussion.categories.map((item) => (

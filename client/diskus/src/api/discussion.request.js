@@ -12,18 +12,18 @@ export const getAllDiscussions = async ({
 }) => {
   const categoriesSelected = categories.toString();
   let discussions;
+  let params =
+    categories.length > 0
+      ? `categories=${categoriesSelected}&limit=${limit}&page=${page}&sort=${sort}`
+      : `limit=${limit}&page=${page}&sort=${sort}`;
+
   if (search) {
-    discussions = await axios.post(
-      `${url}/api/discussions/search/?categories=${categoriesSelected}&limit=${limit}&page=${page}&sort=${sort}`,
-      {
-        text: search
-      }
-    );
+    discussions = await axios.post(`${url}/api/discussions/search/?${params}`, {
+      text: search
+    });
     return discussions.data.data.results;
   } else {
-    discussions = await axios.get(
-      `${url}/api/discussions/?categories=${categoriesSelected}&limit=${limit}&page=${page}&sort=${sort}`
-    );
+    discussions = await axios.get(`${url}/api/discussions/?${params}`);
     return discussions.data.data.data;
   }
 };
@@ -33,11 +33,28 @@ export const getDiscussionById = async (id) => {
   return discussion.data.data.data;
 };
 
-export const createDiscussion = async ({ jwt, discussionData }) => {
-  const data = await axios.post(`${url}/api/discussions`, discussionData, {
-    headers: {
-      Authorization: `Bearer ${jwt}`
+export const createDiscussion = async ({ jwt, data }) => {
+  let doc;
+  const result = await axios.post(
+    `${url}/api/discussions/`,
+    data.discussionData,
+    {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
     }
-  });
-  return data;
+  );
+  if (data.formdata) {
+    doc = await axios({
+      method: 'patch',
+      url: `${url}/api/discussions/${result.data.data.data.id}`,
+      data: data.formdata,
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  }
+
+  return doc.data.data.data;
 };

@@ -93,3 +93,17 @@ export const deleteMeSuccess = () => ({
 export const deleteMeFailure = () => ({
   type: AuthActionTypes.DELETE_ME_FAILURE
 });
+
+export const getMeStart = () => ({
+  type: AuthActionTypes.GET_ME_START
+});
+
+export const getMeSuccess = (currentUser) => ({
+  type: AuthActionTypes.GET_ME_SUCCESS,
+  payload: currentUser
+});
+
+export const getMeFailure = (error) => ({
+  type: AuthActionTypes.GET_ME_FAILURE,
+  payload: error
+});

@@ -14,6 +14,12 @@ const authReducer = (state = INITIAL_STATE, action) => {
         currentUser: action.payload,
         error: null
       };
+    case AuthActionTypes.GET_ME_SUCCESS:
+      return {
+        ...state,
+        currentUser: action.payload,
+        erorr: null
+      };
     case AuthActionTypes.SIGN_OUT_SUCCESS:
       return {
         ...state,

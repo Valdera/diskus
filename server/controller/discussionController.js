@@ -31,7 +31,7 @@ exports.searchDiscussion = catchAsync(async (req, res, next) => {
 
   const miniSearch = new MiniSearch({
     fields: ['text'],
-    storeFields: ['title', 'text', 'categories']
+    storeFields: ['title', 'text', 'categories', 'user', 'id', 'vote']
   });
 
   miniSearch.addAll(doc);

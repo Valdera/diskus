@@ -13,7 +13,9 @@ import {
   emailSignUpFailure,
   emailSignUpSuccess,
   forgotPasswordSuccess,
-  forgotPasswordFailure
+  forgotPasswordFailure,
+  getMeSuccess,
+  getMeFailure
 } from './auth.actions';
 import {
   signIn,
@@ -22,7 +24,8 @@ import {
   deleteMe,
   updateMe,
   getFollowing,
-  getDisucssions
+  getDisucssions,
+  getMe
 } from '../../api/auth.request';
 
 //* WORKERS
@@ -85,6 +88,19 @@ function* workerUpdateMe({ payload }) {
   }
 }
 
+function* workerGetMe() {
+  try {
+    const cookies = new Cookies();
+    yield cookies.get('jwt', { path: '/' });
+    const user = yield getMe(cookies.cookies.jwt);
+    user.followingDetail = yield getFollowing(cookies.cookies.jwt);
+    user.discussions = yield getDisucssions(cookies.cookies.jwt);
+    yield put(getMeSuccess(user));
+  } catch (err) {
+    yield put(getMeFailure(err));
+  }
+}
+
 function* workerDeleteMe() {
   try {
     const cookies = new Cookies();
@@ -121,6 +137,10 @@ function* watchDeleteMeStart() {
   yield takeLatest(AuthActionTypes.DELETE_ME_START, workerDeleteMe);
 }
 
+function* watchGetMeStart() {
+  yield takeLatest(AuthActionTypes.GET_ME_START, workerGetMe);
+}
+
 export function* authSagas() {
   yield all([
     call(watchSignInStart),
@@ -128,6 +148,7 @@ export function* authSagas() {
     call(watchSignOutStart),
     call(watchForgotPasswordStart),
     call(watchUpdateMeStart),
-    call(watchDeleteMeStart)
+    call(watchDeleteMeStart),
+    call(watchGetMeStart)
   ]);
 }

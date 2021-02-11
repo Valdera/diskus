@@ -7,6 +7,7 @@ import Vote from '../vote/vote.component';
 import './post.styles.scss';
 
 const Post = ({ history, discussion }) => {
+  console.log(discussion.image);
   return (
     <div className="post">
       <div className="post__icon">
