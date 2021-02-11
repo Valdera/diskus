@@ -5,6 +5,7 @@ const Discussion = require('../models/discussionModel');
 const factory = require('../controller/handlerFactory');
 const APIFeatures = require('../utils/apiFeatures');
 const firebaseController = require('./firebaseController');
+const mongoose = require('mongoose');
 
 exports.uploadDiscussionImage = upload.single('file');
 exports.uploadStorageDiscussion = firebaseController.uploadStorageFirebase(
@@ -43,6 +44,38 @@ exports.searchDiscussion = catchAsync(async (req, res, next) => {
     results: results.length,
     data: {
       results
+    }
+  });
+});
+
+exports.upvote = catchAsync(async (req, res, next) => {
+  await Discussion.findByIdAndUpdate(req.params.id, {
+    $addToSet: { upvote: mongoose.Types.ObjectId(req.user.id) }
+  });
+  const discussion = await Discussion.findByIdAndUpdate(req.params.id, {
+    $pull: { downvote: mongoose.Types.ObjectId(req.user.id) }
+  });
+  discussion.downvote.pop(mongoose.Types.ObjectId(req.user.id));
+  res.status(200).json({
+    status: 'succsess',
+    data: {
+      discussion
+    }
+  });
+});
+
+exports.downvote = catchAsync(async (req, res, next) => {
+  await Discussion.findByIdAndUpdate(req.params.id, {
+    $addToSet: { downvote: mongoose.Types.ObjectId(req.user.id) }
+  });
+  const discussion = await Discussion.findByIdAndUpdate(req.params.id, {
+    $pull: { upvote: mongoose.Types.ObjectId(req.user.id) }
+  });
+  discussion.upvote.pop(mongoose.Types.ObjectId(req.user.id));
+  res.status(200).json({
+    status: 'succsess',
+    data: {
+      discussion
     }
   });
 });

@@ -19,4 +19,15 @@ router
   .route('/:discussionId')
   .post(authController.protect, commentController.createComment);
 
+router.post(
+  '/upvote/:id',
+  authController.protect,
+  commentController.upvoteComment
+);
+router.post(
+  '/downvote/:id',
+  authController.protect,
+  commentController.downvoteComment
+);
+
 module.exports = router;

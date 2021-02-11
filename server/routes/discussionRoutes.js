@@ -22,4 +22,11 @@ router
   )
   .delete(authController.protect, discussionController.deleteDiscussion);
 
+router.post('/upvote/:id', authController.protect, discussionController.upvote);
+router.post(
+  '/downvote/:id',
+  authController.protect,
+  discussionController.downvote
+);
+
 module.exports = router;

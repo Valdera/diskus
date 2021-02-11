@@ -28,7 +28,23 @@ const discussionSchema = new mongoose.Schema(
       type: [String],
       default: ['Others']
     },
-    image: String
+    image: String,
+    upvote: {
+      type: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+        }
+      ]
+    },
+    downvote: {
+      type: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+        }
+      ]
+    }
   },
   {
     toJSON: { virtuals: true },

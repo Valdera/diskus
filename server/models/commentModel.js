@@ -12,6 +12,22 @@ const commentSchema = mongoose.Schema(
       type: Number,
       default: 0
     },
+    upvote: {
+      type: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+        }
+      ]
+    },
+    downvote: {
+      type: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+        }
+      ]
+    },
     createdDate: {
       type: Date
     },
