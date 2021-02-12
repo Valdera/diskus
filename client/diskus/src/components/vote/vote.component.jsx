@@ -8,8 +8,10 @@ import './vote.styles.scss';
 
 const Vote = ({ item, type, currentUser, voteStart, clickable = true }) => {
   const [voteCount, setVoteCount] = useState('');
+  const [dict, setDict] = useState('');
 
   useEffect(() => {
+    setDict(item);
     setVoteCount(item.vote);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -20,22 +22,31 @@ const Vote = ({ item, type, currentUser, voteStart, clickable = true }) => {
         type,
         vote
       });
+      let doc = dict;
 
-      if (!item.upvote.includes(currentUser.id) && vote === 'upvote') {
-        if (item.downvote.includes(currentUser.id)) {
+      if (!dict.upvote.includes(currentUser.id) && vote === 'upvote') {
+        if (dict.downvote.includes(currentUser.id)) {
+          doc.downvote.pop(currentUser.id);
+          doc.upvote.push(currentUser.id);
           setVoteCount(voteCount + 2);
         } else {
+          doc.upvote.push(currentUser.id);
           setVoteCount(voteCount + 1);
         }
       }
 
-      if (!item.downvote.includes(currentUser.id) && vote === 'downvote') {
-        if (item.upvote.includes(currentUser.id)) {
+      if (!dict.downvote.includes(currentUser.id) && vote === 'downvote') {
+        if (dict.upvote.includes(currentUser.id)) {
+          doc.upvote.pop(currentUser.id);
+          doc.downvote.push(currentUser.id);
           setVoteCount(voteCount - 2);
         } else {
+          doc.downvote.push(currentUser.id);
           setVoteCount(voteCount - 1);
         }
       }
+
+      setDict(doc);
     }
   };
 
