@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist';
 
 import storage from 'redux-persist/lib/storage';
 import authReducer from './auth/auth.reducer';
+import commentReducer from './comment/comment.reducer';
 import discussionReducer from './discussion/discussion.reducer';
 
 const persistConfig = {
@@ -13,7 +14,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  discussion: discussionReducer
+  discussion: discussionReducer,
+  comment: commentReducer
 });
 
 export default persistReducer(persistConfig, rootReducer);

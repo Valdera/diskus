@@ -7,12 +7,15 @@ import {
   createDiscussionFailure,
   createDiscussionSuccess,
   getDiscussionSuccess,
-  getDiscussionFailure
+  getDiscussionFailure,
+  voteSuccess,
+  voteFailure
 } from './discussion.actions';
 import {
   getAllDiscussions,
   createDiscussion,
-  getDiscussionById
+  getDiscussionById,
+  vote
 } from '../../api/discussion.request';
 import { getMeStart } from '../auth/auth.actions';
 
@@ -42,6 +45,22 @@ function* workerGetDiscussion({ payload }) {
   }
 }
 
+function* workerVote({ payload }) {
+  try {
+    const jwt = new Cookies();
+    yield jwt.get('jwt', { path: '/' });
+    yield vote({
+      jwt: jwt.cookies.jwt,
+      id: payload.id,
+      type: payload.type,
+      vote: payload.vote
+    });
+    yield put(voteSuccess());
+  } catch (err) {
+    yield put(voteFailure(err));
+  }
+}
+
 function* fetchDiscussionsAsync({ payload }) {
   try {
     const discussionArray = yield getAllDiscussions(payload);
@@ -53,7 +72,7 @@ function* fetchDiscussionsAsync({ payload }) {
 
 //* WATCHERS
 
-function* fetchDiscussionsStart() {
+function* watchFetchDiscussionsStart() {
   yield takeLatest(
     DiscussionActionTypes.FETCH_DISCUSSIONS_START,
     fetchDiscussionsAsync
@@ -74,10 +93,15 @@ function* watchGetDiscussionStart() {
   );
 }
 
+function* watchVoteStart() {
+  yield takeLatest(DiscussionActionTypes.VOTE_START, workerVote);
+}
+
 export function* discussionSagas() {
   yield all([
-    call(fetchDiscussionsStart),
+    call(watchFetchDiscussionsStart),
     call(watchCreateDiscussionStart),
-    call(watchGetDiscussionStart)
+    call(watchGetDiscussionStart),
+    call(watchVoteStart)
   ]);
 }

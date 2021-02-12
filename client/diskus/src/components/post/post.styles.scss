@@ -36,6 +36,13 @@
       color: $color-secondary;
     }
 
+    span {
+      color: $color-primary;
+      font-size: 1.1rem;
+      display: block;
+      margin-top: 0.2rem;
+    }
+
     p {
       font-size: 1.3rem;
 
@@ -67,6 +74,14 @@
       &:not(:last-child) {
         margin-right: 1.2rem;
       }
+    }
+  }
+
+  &__comment {
+    color: $color-secondary;
+    font-size: 1.3rem;
+    span {
+      padding-left: 0.5rem;
     }
   }
 }

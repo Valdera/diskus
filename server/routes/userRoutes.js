@@ -26,14 +26,16 @@ router.patch('/follow/:id', userController.follow);
 router.patch('/unfollow/:id', userController.unfollow);
 router.get('/follow', userController.getFollowing);
 
-router.use(authController.restrictTo('admin'));
+// router.use(authController.restrictTo('admin'));
 
 router
   .route('/:id')
   .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .patch(authController.restrictTo('admin'), userController.updateUser)
+  .delete(authController.restrictTo('admin'), userController.deleteUser);
 
-router.route('/').get(userController.getAllUsers);
+router
+  .route('/')
+  .get(authController.restrictTo('admin'), userController.getAllUsers);
 
 module.exports = router;

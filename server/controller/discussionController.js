@@ -5,7 +5,7 @@ const Discussion = require('../models/discussionModel');
 const factory = require('../controller/handlerFactory');
 const APIFeatures = require('../utils/apiFeatures');
 const firebaseController = require('./firebaseController');
-const mongoose = require('mongoose');
+const vote = require('../utils/vote');
 
 exports.uploadDiscussionImage = upload.single('file');
 exports.uploadStorageDiscussion = firebaseController.uploadStorageFirebase(
@@ -16,7 +16,7 @@ exports.getDiscussion = factory.getOne(Discussion, 'comments');
 exports.createDiscussion = factory.createOne(Discussion);
 exports.updateDiscussion = factory.updateOne(Discussion);
 exports.deleteDiscussion = factory.deleteOne(Discussion);
-exports.getAllDiscussions = factory.getAll(Discussion);
+exports.getAllDiscussions = factory.getAll(Discussion, 'comments');
 
 exports.searchDiscussion = catchAsync(async (req, res, next) => {
   const filter = {};
@@ -48,34 +48,27 @@ exports.searchDiscussion = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.upvote = catchAsync(async (req, res, next) => {
-  await Discussion.findByIdAndUpdate(req.params.id, {
-    $addToSet: { upvote: mongoose.Types.ObjectId(req.user.id) }
-  });
-  const discussion = await Discussion.findByIdAndUpdate(req.params.id, {
-    $pull: { downvote: mongoose.Types.ObjectId(req.user.id) }
-  });
-  discussion.downvote.pop(mongoose.Types.ObjectId(req.user.id));
-  res.status(200).json({
-    status: 'succsess',
-    data: {
-      discussion
-    }
-  });
-});
+exports.upvoteDiscussion = vote.upvote(Discussion);
+exports.downvoteDiscussion = vote.downvote(Discussion);
 
-exports.downvote = catchAsync(async (req, res, next) => {
-  await Discussion.findByIdAndUpdate(req.params.id, {
-    $addToSet: { downvote: mongoose.Types.ObjectId(req.user.id) }
-  });
-  const discussion = await Discussion.findByIdAndUpdate(req.params.id, {
-    $pull: { upvote: mongoose.Types.ObjectId(req.user.id) }
-  });
-  discussion.upvote.pop(mongoose.Types.ObjectId(req.user.id));
+exports.getPopular = catchAsync(async (req, res, next) => {
+  const filter = {};
+  req.query.sort = '-vote';
+
+  req.query.limit = '3';
+
+  const features = new APIFeatures(Discussion.find(filter), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const doc = await features.query.populate('comments');
+
   res.status(200).json({
-    status: 'succsess',
+    status: 'success',
     data: {
-      discussion
+      results: doc
     }
   });
 });

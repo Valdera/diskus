@@ -42,7 +42,8 @@ const commentSchema = mongoose.Schema(
       required: [true, 'Discussion must belong to a discussion']
     },
     sentiment: {
-      type: Number
+      type: Number,
+      default: 0
     }
   },
   {

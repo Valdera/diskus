@@ -30,7 +30,13 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   }
 
   // 2) Update user document
-  const filteredBody = filterObj(req.body, 'name', 'email', 'description');
+  const filteredBody = filterObj(
+    req.body,
+    'name',
+    'email',
+    'description',
+    'image'
+  );
 
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,

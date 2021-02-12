@@ -17,24 +17,31 @@ export const getAllDiscussions = async ({
       ? `categories=${categoriesSelected}&limit=${limit}&page=${page}&sort=${sort}`
       : `limit=${limit}&page=${page}&sort=${sort}`;
 
-  if (search) {
+  if (search && search !== '*') {
     discussions = await axios.post(`${url}/api/discussions/search/?${params}`, {
       text: search
     });
     return discussions.data.data.results;
   } else {
-    discussions = await axios.get(`${url}/api/discussions/?${params}`);
+    discussions = await axios.get(`${url}/api/discussions/?${params}`, {
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    });
     return discussions.data.data.data;
   }
 };
 
 export const getDiscussionById = async (id) => {
-  const discussion = await axios.get(`${url}/api/discussions/${id}`);
+  const discussion = await axios.get(`${url}/api/discussions/${id}`, {
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
+  });
   return discussion.data.data.data;
 };
 
 export const createDiscussion = async ({ jwt, data }) => {
-  let doc;
   const result = await axios.post(
     `${url}/api/discussions/`,
     data.discussionData,
@@ -45,7 +52,7 @@ export const createDiscussion = async ({ jwt, data }) => {
     }
   );
   if (data.formdata) {
-    doc = await axios({
+    await axios({
       method: 'patch',
       url: `${url}/api/discussions/${result.data.data.data.id}`,
       data: data.formdata,
@@ -56,5 +63,23 @@ export const createDiscussion = async ({ jwt, data }) => {
     });
   }
 
-  return doc.data.data.data;
+  return result.data.data.data;
+};
+
+export const getPopular = async () => {
+  const discussion = await axios.get(`${url}/api/discussions/popular`);
+  return discussion.data.data.results;
+};
+
+export const vote = async ({ jwt, id, type, vote }) => {
+  console.log(jwt);
+  await axios.patch(
+    `${url}/api/${type}/${vote}/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    }
+  );
 };

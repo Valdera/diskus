@@ -2,13 +2,14 @@ import React from 'react';
 import Vote from '../../components/vote/vote.component';
 import ProfilePicture from '../../components/profile-picture/profile-picture.component';
 import Category from '../../components/category/category.component';
+import { convertDate } from '../../utils/convertDate';
 import './discussion.styles.scss';
 
 const Discussion = ({ discussion }) => {
   return (
     <div className="discussion">
       <div className="discussion__header">
-        <Vote item={discussion} />
+        <Vote item={discussion} type="discussions" />
         <div className="discusson__profile">
           <ProfilePicture src={discussion.user.image} type="discuss" />
         </div>
@@ -24,7 +25,9 @@ const Discussion = ({ discussion }) => {
           ))}
         </div>
         <span className="discussion__date">
-          {`Posted 1 days ago by ${discussion.user.name}`}
+          {`Posted on ${convertDate(discussion.createdDate)} by ${
+            discussion.user.name
+          }`}
         </span>
       </div>
     </div>

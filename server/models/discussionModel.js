@@ -67,6 +67,7 @@ discussionSchema.pre(/^find/, function(next) {
 });
 
 discussionSchema.pre('save', function(next) {
+  if (!this.isNew) return next();
   this.createdDate = Date.now();
   next();
 });

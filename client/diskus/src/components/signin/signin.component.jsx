@@ -11,7 +11,10 @@ const Signin = ({ signInStart }) => {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    await signInStart({ email, password });
+    if (email && password) {
+      await signInStart({ email, password });
+    }
+
     setEmail('');
     setPassword('');
   };

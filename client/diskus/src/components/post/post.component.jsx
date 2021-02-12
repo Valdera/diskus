@@ -3,10 +3,10 @@ import { withRouter } from 'react-router-dom';
 import Category from '../category/category.component';
 import ProfilePicture from '../profile-picture/profile-picture.component';
 import Vote from '../vote/vote.component';
-
+import { convertDate } from '../../utils/convertDate';
 import './post.styles.scss';
 
-const Post = ({ history, discussion }) => {
+const Post = ({ history, discussion, clickableVote }) => {
   return (
     <div className="post">
       <div className="post__icon">
@@ -15,17 +15,32 @@ const Post = ({ history, discussion }) => {
           handleClick={() => history.push(`/bio/${discussion.user.id}`)}
         />
         <div className="post__vote">
-          <Vote item={discussion} />
+          <Vote
+            item={discussion}
+            type="discussions"
+            clickable={clickableVote}
+          />
         </div>
+        {discussion.comments ? (
+          <div className="post__comment">
+            <i className="fas fa-comments"></i>
+            <span>{discussion.comments.length}</span>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
       <div
         className="post__content"
         onClick={() => history.push(`/discussion/${discussion.id}`)}>
-        <h2>{discussion.title}</h2>
-        <p>
-          {discussion.text}
-          {/* <span> See more</span> */}
-        </p>
+        <div>
+          <h2>{discussion.title}</h2>
+          <span>
+            Posted on {convertDate(discussion.createdDate)} by{' '}
+            {discussion.user.name}
+          </span>
+        </div>
+        <p>{discussion.text}</p>
 
         {discussion.image ? <img src={discussion.image} alt="Post" /> : ''}
 

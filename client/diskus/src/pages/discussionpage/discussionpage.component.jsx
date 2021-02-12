@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { withRouter } from 'react-router-dom';
 
 import Discussion from '../../components/discussion/discussion.component';
 
@@ -13,8 +14,15 @@ import {
   selectDiscussionsLoaded,
   selectSelectedDiscussion
 } from '../../redux/discussion/discussion.selector';
+import { selectCurrentUser } from '../../redux/auth/auth.selector';
 
-const DiscussionPage = ({ match, selectedDiscussion, getDiscussionStart }) => {
+const DiscussionPage = ({
+  match,
+  selectedDiscussion,
+  getDiscussionStart,
+  currentUser,
+  history
+}) => {
   const fetchDiscussion = async () => {
     await getDiscussionStart(match.params.id);
   };
@@ -37,7 +45,15 @@ const DiscussionPage = ({ match, selectedDiscussion, getDiscussionStart }) => {
       {selectedDiscussion ? (
         <div className="discussionpage__comment">
           <h3>Comment</h3>
-          <CommentSubmit discussion={selectedDiscussion.id} />
+          {currentUser ? (
+            <CommentSubmit discussion={selectedDiscussion.id} />
+          ) : (
+            <div
+              className="discussionpage__nologin"
+              onClick={() => history.push('/login')}>
+              Login first to comment and to vote on this discussion
+            </div>
+          )}
           {selectedDiscussion.comments.map((comment) => (
             <Comment comment={comment} />
           ))}
@@ -55,7 +71,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = createStructuredSelector({
   selectedDiscussion: selectSelectedDiscussion,
-  isLoaded: selectDiscussionsLoaded
+  isLoaded: selectDiscussionsLoaded,
+  currentUser: selectCurrentUser
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DiscussionPage);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(DiscussionPage)
+);

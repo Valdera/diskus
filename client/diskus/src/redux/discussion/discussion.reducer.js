@@ -54,6 +54,16 @@ const discussionReducer = (state = INITIAL_STATE, action) => {
         isFetching: false,
         selectedDiscussion: action.payload
       };
+    case DiscussionActionTypes.VOTE_FAILURE:
+      return {
+        ...state,
+        error: action.payload
+      };
+    case DiscussionActionTypes.CLEAN_ERROR_DISCUSSION:
+      return {
+        ...state,
+        error: action.payload
+      };
     default:
       return state;
   }

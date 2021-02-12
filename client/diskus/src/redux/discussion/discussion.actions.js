@@ -58,3 +58,7 @@ export const voteSuccess = (payload) => ({
   type: DiscussionActionTypes.VOTE_SUCCESS,
   payload: payload
 });
+
+export const cleanErrorDiscussion = () => ({
+  type: DiscussionActionTypes.CLEAN_ERROR_DISCUSSION
+});

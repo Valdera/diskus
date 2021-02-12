@@ -13,3 +13,7 @@ export const createCommentFailure = (err) => ({
   type: CommentActionTypes.CREATE_COMMENT_FAILURE,
   payload: err
 });
+
+export const cleanErrorComment = () => ({
+  type: CommentActionTypes.CLEAN_ERROR_COMMENT
+});

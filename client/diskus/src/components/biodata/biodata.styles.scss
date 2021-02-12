@@ -48,6 +48,36 @@
       font-size: 3rem;
       margin-left: 1.5rem;
     }
+
+    &--input {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      padding-left: 2rem;
+      animation: toRight 0.3s ease-out;
+      cursor: pointer;
+
+      button {
+        cursor: pointer;
+
+        font-family: $font-primary;
+        border: 1px solid $color-secondary;
+        color: $color-secondary;
+        background-color: white;
+        padding: 0.5rem 0.8rem;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+
+      & input[type='file'] {
+        cursor: pointer;
+        font-size: 10rem;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+      }
+    }
   }
 
   &__content {

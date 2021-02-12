@@ -5,6 +5,7 @@ const authController = require('../controller/authController');
 const router = express.Router();
 
 router.post('/search', discussionController.searchDiscussion);
+router.get('/popular', discussionController.getPopular);
 
 router
   .route('/')
@@ -22,11 +23,15 @@ router
   )
   .delete(authController.protect, discussionController.deleteDiscussion);
 
-router.post('/upvote/:id', authController.protect, discussionController.upvote);
-router.post(
+router.patch(
+  '/upvote/:id',
+  authController.protect,
+  discussionController.upvoteDiscussion
+);
+router.patch(
   '/downvote/:id',
   authController.protect,
-  discussionController.downvote
+  discussionController.downvoteDiscussion
 );
 
 module.exports = router;

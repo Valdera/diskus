@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { selectCurrentUser } from '../../redux/auth/auth.selector';
 import { createStructuredSelector } from 'reselect';
@@ -8,8 +8,27 @@ import Submit from '../../components/submit/submit.component';
 import Following from '../../components/following/following.component';
 import Post from '../../components/post/post.component';
 import './profilepage.styles.scss';
+import { getPopular } from '../../api/discussion.request';
+import Spinner from '../../components/spinner/spinner.component';
+import { getMeStart } from '../../redux/auth/auth.actions';
 
-const ProfilePage = ({ currentUser }) => {
+const ProfilePage = ({ currentUser, getMeStart }) => {
+  const [popular, setPopular] = useState([]);
+
+  const fetchPopular = async () => {
+    const discussions = await getPopular();
+    setPopular(discussions);
+  };
+
+  const getMe = async () => {
+    await getMeStart();
+  };
+
+  useEffect(() => {
+    getMe();
+    fetchPopular();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className="profilepage">
       <div className="profilepage__welcome">
@@ -20,9 +39,15 @@ const ProfilePage = ({ currentUser }) => {
           </h1>
           <p className="profilepage__welcome-popular">Popular Post : </p>
         </div>
-        <PopularBubble />
-        <PopularBubble />
-        <PopularBubble />
+        {popular.length > 0 ? (
+          popular.map((discussion) => (
+            <PopularBubble key={discussion.id} discussion={discussion} />
+          ))
+        ) : (
+          <div className="profilepage__welcome--spinner">
+            <Spinner />
+          </div>
+        )}
       </div>
 
       <div className="profilepage__biodata">
@@ -46,7 +71,11 @@ const ProfilePage = ({ currentUser }) => {
         <h1>Your Post</h1>
         <div className="profilepage__post-list">
           {currentUser.discussions.map((discussion) => (
-            <Post discussion={discussion} key={discussion.id} />
+            <Post
+              discussion={discussion}
+              key={discussion.id}
+              clickableVote={false}
+            />
           ))}
         </div>
       </div>
@@ -58,4 +87,8 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 });
 
-export default connect(mapStateToProps)(ProfilePage);
+const mapDispatchToProps = (dispatch) => ({
+  getMeStart: () => dispatch(getMeStart())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

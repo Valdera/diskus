@@ -11,6 +11,8 @@ import {
 } from '../../redux/discussion/discussion.selector';
 import './searchpage.styles.scss';
 
+const limit = 10;
+
 const SearchPage = ({
   fetchDiscussionsStart,
   discussions,
@@ -18,21 +20,20 @@ const SearchPage = ({
   match
 }) => {
   const [page, setPage] = useState(1);
-  const [sort, setSort] = useState('Vote');
+  const [sort, setSort] = useState('-createdAt');
   const [categories, setCategories] = useState([]);
 
-  const fetchDiscussions = async () => {
+  const fetchDiscussions = async (sort, currpage = page) => {
     let categoriesSelected;
     if (categories.length === 0) {
       categoriesSelected = ['Others'];
     } else {
       categoriesSelected = categories;
     }
-    const limit = 10;
     const search = match.params.search;
     await fetchDiscussionsStart({
       categories: categoriesSelected,
-      page,
+      page: currpage,
       limit,
       sort,
       search
@@ -43,8 +44,18 @@ const SearchPage = ({
     fetchDiscussions();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const refreshDiscussion = async () => {
-    await fetchDiscussions();
+  const changePage = async (type) => {
+    if (type === 'next') {
+      setPage(page + 1);
+      fetchDiscussions(sort, page + 1);
+    } else if (type === 'previous') {
+      setPage(page - 1);
+      fetchDiscussions(sort, page - 1);
+    }
+  };
+
+  const refreshDiscussion = async (sort) => {
+    await fetchDiscussions(sort);
   };
 
   return (
@@ -61,8 +72,25 @@ const SearchPage = ({
       {isLoaded && discussions ? (
         <div className="searchpage__post">
           {discussions.map((discussion) => (
-            <Post discussion={discussion} key={discussion.id} />
+            <Post
+              discussion={discussion}
+              key={discussion.id}
+              clickableVote={false}
+            />
           ))}
+          <div className="searchpage__page">
+            <i
+              className={`fas fa-chevron-circle-left ${
+                page === 1 ? 'searchpage__page--hidden' : ''
+              }`}
+              onClick={() => changePage('previous')}></i>
+            {discussions.length > 0 ? <span>{page}</span> : ''}
+            <i
+              className={`fas fa-chevron-circle-right ${
+                discussions.length < limit ? 'searchpage__page--hidden' : ''
+              }`}
+              onClick={() => changePage('next')}></i>
+          </div>
         </div>
       ) : (
         <div className="searchpage__spinner">

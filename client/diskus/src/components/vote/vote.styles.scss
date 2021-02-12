@@ -9,6 +9,14 @@
   i {
     font-size: 3rem;
     color: $color-primary;
+    transition: all 0.3s;
+  }
+
+  &--click {
+    cursor: pointer;
+    &:hover {
+      color: $color-secondary;
+    }
   }
 
   &--up {

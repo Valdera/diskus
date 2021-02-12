@@ -103,7 +103,7 @@ exports.getOne = (Model, populateOpt) =>
 
 //GET localhost/user?sort=''
 
-exports.getAll = Model =>
+exports.getAll = (Model, populateOpt) =>
   catchAsync(async (req, res, next) => {
     const filter = {};
 
@@ -115,7 +115,13 @@ exports.getAll = Model =>
       .limitFields()
       .paginate();
 
-    const doc = await features.query;
+    let doc;
+    if (populateOpt) {
+      doc = await features.query.populate(populateOpt);
+    } else {
+      doc = await features.query;
+    }
+
     res.status(200).json({
       status: 'success',
       results: doc.length,

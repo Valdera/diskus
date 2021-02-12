@@ -32,12 +32,25 @@ export const forgotPassword = async ({ email }) => {
   return doc.data.message;
 };
 
-export const updateMe = async ({ jwt, updatedData }) => {
+export const updateMe = async ({ jwt, updatedData, image }) => {
   const doc = await axios.patch(`${url}/api/users/updateMe`, updatedData, {
     headers: {
       Authorization: `Bearer ${jwt}`
     }
   });
+
+  if (image) {
+    const imageUser = await axios({
+      method: 'patch',
+      url: `${url}/api/users/updateMe`,
+      data: image,
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    return imageUser.data.data.user;
+  }
   const user = doc.data.data.user;
   return user;
 };
@@ -54,6 +67,7 @@ export const deleteMe = async (jwt) => {
 export const getFollowing = async (jwt) => {
   const doc = await axios.get(`${url}/api/users/follow`, {
     headers: {
+      'Access-Control-Allow-Origin': '*',
       Authorization: `Bearer ${jwt}`
     }
   });
@@ -64,6 +78,7 @@ export const getFollowing = async (jwt) => {
 export const getDiscussions = async (jwt) => {
   const doc = await axios.get(`${url}/api/users/discussion`, {
     headers: {
+      'Access-Control-Allow-Origin': '*',
       Authorization: `Bearer ${jwt}`
     }
   });
@@ -74,6 +89,7 @@ export const getDiscussions = async (jwt) => {
 export const getMe = async (jwt) => {
   const doc = await axios.get(`${url}/api/users/me`, {
     headers: {
+      'Access-Control-Allow-Origin': '*',
       Authorization: `Bearer ${jwt}`
     }
   });
@@ -84,9 +100,42 @@ export const getMe = async (jwt) => {
 export const getUserById = async ({ jwt, id }) => {
   const doc = await axios.get(`${url}/api/users/${id}`, {
     headers: {
+      'Access-Control-Allow-Origin': '*',
       Authorization: `Bearer ${jwt}`
     }
   });
+  const user = doc.data.data.data;
+  return user;
+};
+
+//{{URL}}/api/users/follow/602103446b160c3588348db3
+
+export const follow = async ({ jwt, id }) => {
+  const doc = await axios.patch(
+    `${url}/api/users/follow/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    }
+  );
+  const user = doc.data.data.data;
+  console.log(user);
+  return user;
+};
+
+export const unfollow = async ({ jwt, id }) => {
+  const doc = await axios.patch(
+    `${url}/api/users/unfollow/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    }
+  );
+
   const user = doc.data.data.data;
   return user;
 };

@@ -16,3 +16,8 @@ export const selectDiscussionsLoaded = createSelector(
   [selectDiscussion],
   (discussion) => discussion.isFetching
 );
+
+export const selectErrorDiscussion = createSelector(
+  [selectDiscussion],
+  (discussion) => discussion.error
+);

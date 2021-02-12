@@ -7,7 +7,7 @@ import StyledSelectDrop from '../styled-select/styled-select.component';
 import { createDiscussionStart } from '../../redux/discussion/discussion.actions';
 import './submit.styles.scss';
 
-const Submit = ({ currentUser, createDiscussionStart }) => {
+const Submit = ({ currentUser, createDiscussionStart, setOpen }) => {
   const [categories, setCategories] = useState([]);
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
@@ -60,7 +60,12 @@ const Submit = ({ currentUser, createDiscussionStart }) => {
       </div>
       <div className="submit__button">
         <input type="file" onChange={(evt) => setFile(evt.target.files[0])} />
-        <RadiusButton custom="flip-orange" onClick={handleSubmit}>
+        <RadiusButton
+          custom="flip-orange"
+          onClick={() => {
+            handleSubmit();
+            if (setOpen) setOpen('submit');
+          }}>
           Submit
         </RadiusButton>
       </div>

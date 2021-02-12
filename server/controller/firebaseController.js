@@ -31,6 +31,7 @@ exports.uploadStorageFirebase = Model =>
       await blobWriter.on('finish', () => {
         const url = `https://firebasestorage.googleapis.com/v0/b/diskus-app.appspot.com/o/${newFileName}?alt=media&token=${token}`;
         req.body.image = url;
+        console.log(req.body.image);
         next();
       });
 

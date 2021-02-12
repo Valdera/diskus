@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from '../../redux/auth/auth.selector';
 import StyledSelectDrop from '../styled-select/styled-select.component';
 import './filter.styles.scss';
 import Submit from '../submit/submit.component';
@@ -6,6 +9,7 @@ import Submit from '../submit/submit.component';
 const Filter = ({
   refreshDiscussion,
   sort,
+  currentUser,
   setSort,
   categories,
   setCategories
@@ -80,16 +84,16 @@ const Filter = ({
       {openDate ? (
         <div className="filter__date">
           <button
-            onClick={() => {
-              setSort('createdDate');
-              refreshDiscussion();
+            onClick={async () => {
+              setSort('-createdDate');
+              await refreshDiscussion('-createdDate');
             }}>
             Latest post
           </button>
           <button
-            onClick={() => {
-              setSort('-createdDate');
-              refreshDiscussion();
+            onClick={async () => {
+              setSort('createdDate');
+              await refreshDiscussion('createdDate');
             }}>
             Old post
           </button>
@@ -100,16 +104,16 @@ const Filter = ({
       {openVote ? (
         <div className="filter__vote">
           <button
-            onClick={() => {
-              setSort('vote');
-              refreshDiscussion();
+            onClick={async () => {
+              setSort('-vote');
+              await refreshDiscussion('-vote');
             }}>
             Most Vote
           </button>
           <button
-            onClick={() => {
-              setSort('-vote');
-              refreshDiscussion();
+            onClick={async () => {
+              setSort('vote');
+              await refreshDiscussion('vote');
             }}>
             Fewest Vote
           </button>
@@ -120,7 +124,11 @@ const Filter = ({
 
       {openSubmit ? (
         <div className="filter__submit-post">
-          <Submit />
+          {currentUser ? (
+            <Submit setOpen={setOpen} />
+          ) : (
+            <p>Login first to submit a discussion</p>
+          )}
         </div>
       ) : (
         ''
@@ -128,5 +136,7 @@ const Filter = ({
     </div>
   );
 };
-
-export default Filter;
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+});
+export default connect(mapStateToProps)(Filter);

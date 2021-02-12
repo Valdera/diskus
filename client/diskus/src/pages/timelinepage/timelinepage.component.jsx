@@ -11,27 +11,38 @@ import {
 } from '../../redux/discussion/discussion.selector';
 import './timelinepage.styles.scss';
 
+const limit = 10;
+
 const TimelinePage = ({ fetchDiscussionsStart, discussions, isLoaded }) => {
   const [page, setPage] = useState(1);
-  const [sort, setSort] = useState('Vote');
+  const [sort, setSort] = useState('-createdDate');
   const [categories, setCategories] = useState([]);
 
-  const fetchDiscussions = async () => {
-    const limit = 30;
+  const fetchDiscussions = async (sort, currpage = page) => {
     await fetchDiscussionsStart({
       categories,
-      page,
+      page: currpage,
       limit,
       sort
     });
   };
 
   useEffect(() => {
-    fetchDiscussions();
+    fetchDiscussions(sort);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const refreshDiscussion = async () => {
-    await fetchDiscussions();
+  const changePage = async (type) => {
+    if (type === 'next') {
+      setPage(page + 1);
+      fetchDiscussions(sort, page + 1);
+    } else if (type === 'previous') {
+      setPage(page - 1);
+      fetchDiscussions(sort, page - 1);
+    }
+  };
+
+  const refreshDiscussion = async (sort) => {
+    await fetchDiscussions(sort);
   };
 
   return (
@@ -48,8 +59,25 @@ const TimelinePage = ({ fetchDiscussionsStart, discussions, isLoaded }) => {
       {isLoaded && discussions ? (
         <div className="timelinepage__post">
           {discussions.map((discussion) => (
-            <Post discussion={discussion} key={discussion.id} />
+            <Post
+              discussion={discussion}
+              key={discussion.id}
+              clickableVote={false}
+            />
           ))}
+          <div className="timelinepage__page">
+            <i
+              className={`fas fa-chevron-circle-left ${
+                page === 1 ? 'timelinepage__page--hidden' : ''
+              }`}
+              onClick={() => changePage('previous')}></i>
+            {discussions.length > 0 ? <span>{page}</span> : ''}
+            <i
+              className={`fas fa-chevron-circle-right ${
+                discussions.length < limit ? 'timelinepage__page--hidden' : ''
+              }`}
+              onClick={() => changePage('next')}></i>
+          </div>
         </div>
       ) : (
         <div className="timelinepage__spinner">

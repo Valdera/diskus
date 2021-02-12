@@ -12,15 +12,26 @@ const Biodata = ({ user, updateMeStart }) => {
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [description, setDescription] = useState(user.description);
+  const [file, setFile] = useState('');
 
   const handleUpdate = async (evt) => {
     evt.preventDefault();
-    if (name || email) {
-      await updateMeStart({
-        name,
-        email,
-        description
-      });
+    const formdata = new FormData();
+    const data = {};
+
+    if (file) {
+      formdata.append('file', file);
+      data.image = formdata;
+    }
+
+    data.data = {
+      name,
+      email,
+      description
+    };
+
+    if (name || email || description || file) {
+      await updateMeStart(data);
     }
     setEditBio(false);
   };
@@ -38,8 +49,30 @@ const Biodata = ({ user, updateMeStart }) => {
       </div>
       <form className="biodata__content" onSubmit={handleUpdate}>
         <div className="biodata__head">
-          <ProfilePicture src="./img/default-user.jpg" type="medium" />
+          {editBio ? (
+            file ? (
+              <ProfilePicture src={URL.createObjectURL(file)} type="medium" />
+            ) : (
+              <ProfilePicture src={user.image} type="medium" />
+            )
+          ) : (
+            <ProfilePicture src={user.image} type="medium" />
+          )}
+
           <h2>BIODATA</h2>
+          {editBio ? (
+            <div class="biodata__head--input">
+              <button>Change Image</button>
+              <input
+                type="file"
+                onChange={(evt) => {
+                  setFile(evt.target.files[0]);
+                }}
+              />
+            </div>
+          ) : (
+            ''
+          )}
         </div>
         <div className="biodata__edit">
           <i className="fas fa-edit" onClick={() => setEditBio(!editBio)}></i>

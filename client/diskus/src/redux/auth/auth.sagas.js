@@ -17,7 +17,11 @@ import {
   getMeSuccess,
   getMeFailure,
   getUserSuccess,
-  getUserFailure
+  getUserFailure,
+  followUserSuccess,
+  followUserFailure,
+  unfollowUserFailure,
+  unfollowUserSuccess
 } from './auth.actions';
 import {
   signIn,
@@ -28,7 +32,9 @@ import {
   getFollowing,
   getDiscussions,
   getMe,
-  getUserById
+  getUserById,
+  follow,
+  unfollow
 } from '../../api/auth.request';
 
 //* WORKERS
@@ -81,7 +87,8 @@ function* workerUpdateMe({ payload }) {
     yield cookies.get('jwt', { path: '/' });
     const user = yield updateMe({
       jwt: cookies.cookies.jwt,
-      updatedData: payload
+      updatedData: payload.data,
+      image: payload.image
     });
     user.followingDetail = yield getFollowing(cookies.cookies.jwt);
     user.discussions = yield getDiscussions(cookies.cookies.jwt);
@@ -130,6 +137,28 @@ function* workerDeleteMe() {
   }
 }
 
+function* workerFollowUser({ payload }) {
+  try {
+    const cookies = new Cookies();
+    yield cookies.get('jwt', { path: '/' });
+    yield follow({ jwt: cookies.cookies.jwt, id: payload });
+    yield put(followUserSuccess());
+  } catch (err) {
+    yield put(followUserFailure(err));
+  }
+}
+
+function* workerUnfollowUser({ payload }) {
+  try {
+    const cookies = new Cookies();
+    yield cookies.get('jwt', { path: '/' });
+    yield unfollow({ jwt: cookies.cookies.jwt, id: payload });
+    yield put(unfollowUserSuccess());
+  } catch (err) {
+    yield put(unfollowUserFailure(err));
+  }
+}
+
 //* WATCHERS
 function* watchSignUpStart() {
   yield takeLatest(AuthActionTypes.EMAIL_SIGN_UP_START, workerSignUp);
@@ -163,6 +192,14 @@ function* watchGetUserStart() {
   yield takeLatest(AuthActionTypes.GET_USER_START, workerGetUser);
 }
 
+function* watchFollowUserStart() {
+  yield takeLatest(AuthActionTypes.FOLLOW_USER_START, workerFollowUser);
+}
+
+function* watchUnfollowUserStart() {
+  yield takeLatest(AuthActionTypes.UNFOLLOW_USER_START, workerUnfollowUser);
+}
+
 export function* authSagas() {
   yield all([
     call(watchSignInStart),
@@ -172,6 +209,8 @@ export function* authSagas() {
     call(watchUpdateMeStart),
     call(watchDeleteMeStart),
     call(watchGetMeStart),
-    call(watchGetUserStart)
+    call(watchGetUserStart),
+    call(watchUnfollowUserStart),
+    call(watchFollowUserStart)
   ]);
 }

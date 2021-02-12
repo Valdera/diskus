@@ -41,4 +41,16 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+  &__nologin {
+    cursor: pointer;
+    background-color: $color-primary;
+    color: $color-white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    padding: 2rem 2rem;
+  }
 }

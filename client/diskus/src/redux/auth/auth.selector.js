@@ -11,3 +11,8 @@ export const selectSelectedUser = createSelector(
   [selectUser],
   (auth) => auth.selectedUser
 );
+
+export const selectErrorUser = createSelector(
+  [selectUser],
+  (auth) => auth.error
+);

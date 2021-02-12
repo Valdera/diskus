@@ -152,3 +152,11 @@ export const unfollowUserFailure = (err) => ({
   type: AuthActionTypes.UNFOLLOW_USER_START,
   payload: err
 });
+
+export const removeCurrentUser = () => ({
+  type: AuthActionTypes.REMOVE_CURRENT_USER
+});
+
+export const cleanErrorUser = () => ({
+  type: AuthActionTypes.CLEAN_ERROR_USER
+});

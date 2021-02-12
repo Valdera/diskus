@@ -5,25 +5,67 @@ import ProfilePicture from '../../components/profile-picture/profile-picture.com
 import RadiusButton from '../../components/radius-button/radius-button.component';
 import Post from '../../components/post/post.component';
 import './biopage.styles.scss';
-import { selectSelectedUser } from '../../redux/auth/auth.selector';
-import { getUserStart } from '../../redux/auth/auth.actions';
+import {
+  selectCurrentUser,
+  selectSelectedUser
+} from '../../redux/auth/auth.selector';
+import {
+  followUserStart,
+  getUserStart,
+  unfollowUserStart
+} from '../../redux/auth/auth.actions';
 
-const BioPage = ({ match, getUserStart, user }) => {
+const BioPage = ({
+  match,
+  getUserStart,
+  user,
+  followStart,
+  unfollowStart,
+  currentUser
+}) => {
+  const [isFollower, setIsFollower] = useState('');
+
   const getUser = async () => {
-    console.log(match.params.id);
     await getUserStart(match.params.id);
   };
 
   useEffect(() => {
     getUser();
+    if (currentUser) {
+      setIsFollower(user.follower.includes(currentUser.id));
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const followUser = async () => {
+    setIsFollower(true);
+    await followStart(user.id);
+  };
+
+  const unfollowUser = async () => {
+    setIsFollower(false);
+    await unfollowStart(user.id);
+  };
 
   return (
     <div className="biopage">
       <div className="biopage__content">
         <div className="biopage__picture">
           <ProfilePicture src={user.image} type="large" />
-          <RadiusButton custom="orange-small">Follow</RadiusButton>
+          {currentUser && user.id !== currentUser.id ? (
+            isFollower ? (
+              <RadiusButton
+                custom="orange-smallflip"
+                onClick={() => unfollowUser()}>
+                Unfollow
+              </RadiusButton>
+            ) : (
+              <RadiusButton custom="orange-small" onClick={() => followUser()}>
+                Follow
+              </RadiusButton>
+            )
+          ) : (
+            ''
+          )}
         </div>
         <div className="biopage__text">
           <h1>{user.name}</h1>
@@ -34,7 +76,11 @@ const BioPage = ({ match, getUserStart, user }) => {
       <h2 className="biopage__title">Fauzan Valdera's Post</h2>
       <div className="biopage__post">
         {user.discussions.map((discussion) => (
-          <Post discussion={discussion} key={discussion.id} />
+          <Post
+            discussion={discussion}
+            key={discussion.id}
+            clickableVote={false}
+          />
         ))}
       </div>
     </div>
@@ -42,11 +88,14 @@ const BioPage = ({ match, getUserStart, user }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getUserStart: (payload) => dispatch(getUserStart(payload))
+  getUserStart: (payload) => dispatch(getUserStart(payload)),
+  followStart: (payload) => dispatch(followUserStart(payload)),
+  unfollowStart: (payload) => dispatch(unfollowUserStart(payload))
 });
 
 const mapStateToProps = createStructuredSelector({
-  user: selectSelectedUser
+  user: selectSelectedUser,
+  currentUser: selectCurrentUser
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BioPage);

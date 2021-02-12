@@ -19,7 +19,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: action.payload,
-        erorr: null
+        error: null
       };
     case AuthActionTypes.SIGN_OUT_SUCCESS:
       return {
@@ -57,12 +57,26 @@ const authReducer = (state = INITIAL_STATE, action) => {
         selectedUser: action.payload,
         error: null
       };
+    case AuthActionTypes.REMOVE_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: null
+      };
+    case AuthActionTypes.CLEAN_ERROR_USER:
+      return {
+        ...state,
+        error: null
+      };
     case AuthActionTypes.UPDATE_ME_FAILURE:
     case AuthActionTypes.DELETE_ME_FAILURE:
     case AuthActionTypes.EMAIL_SIGN_UP_FAILURE:
     case AuthActionTypes.FORGOT_PASSWORD_FAILURE:
     case AuthActionTypes.SIGN_IN_FAILURE:
     case AuthActionTypes.SIGN_OUT_FAILURE:
+    case AuthActionTypes.GET_ME_FAILURE:
+    case AuthActionTypes.GET_USER_FAILURE:
+    case AuthActionTypes.FOLLOW_USER_FAILURE:
+    case AuthActionTypes.UNFOLLOW_USER_FAILURE:
       return {
         ...state,
         error: action.payload

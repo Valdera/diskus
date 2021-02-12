@@ -19,12 +19,12 @@ router
   .route('/:discussionId')
   .post(authController.protect, commentController.createComment);
 
-router.post(
+router.patch(
   '/upvote/:id',
   authController.protect,
   commentController.upvoteComment
 );
-router.post(
+router.patch(
   '/downvote/:id',
   authController.protect,
   commentController.downvoteComment

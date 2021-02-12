@@ -30,7 +30,7 @@ const Navbar = ({ history, currentUser, signOutStart }) => {
         />
         <button
           className="search__button"
-          onClick={() => history.push(`/search/${search}`)}>
+          onClick={() => history.push(`/search/${search ? search : '*'}`)}>
           <i className="fas fa-search"></i>
         </button>
       </form>
