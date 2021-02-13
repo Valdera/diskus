@@ -1,7 +1,10 @@
 import './App.scss';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { selectCurrentUser } from './redux/auth/auth.selector';
+import {
+  selectCurrentUser,
+  selectMessageUser
+} from './redux/auth/auth.selector';
 import { createStructuredSelector } from 'reselect';
 import Navbar from './components/navbar/navbar.component';
 import React, { useEffect } from 'react';
@@ -12,7 +15,13 @@ import SearchPage from './pages/searchpage/searchpage.component';
 import BioPage from './pages/biopage/biopage.component';
 import LoginPage from './pages/loginpage/loginpage.component';
 import DiscussionPage from './pages/discussionpage/discussionpage.component';
-import { cleanErrorUser, removeCurrentUser } from './redux/auth/auth.actions';
+import ForgotPage from './pages/forgotpage/forgotpage.component';
+import ErrorPage from './pages/errorpage/errorpage.component';
+import {
+  cleanErrorUser,
+  removeCurrentUser,
+  cleanMessageUser
+} from './redux/auth/auth.actions';
 import Cookies from 'universal-cookie';
 import { selectErrorDiscussion } from './redux/discussion/discussion.selector';
 import { selectErrorUser } from './redux/auth/auth.selector';
@@ -28,7 +37,9 @@ const App = ({
   discussionError,
   cleanErrorComment,
   cleanErrorDiscussion,
-  cleanErrorUser
+  cleanErrorUser,
+  cleanUserMessage,
+  userMessage
 }) => {
   const checkUser = async () => {
     const cookies = new Cookies();
@@ -71,6 +82,17 @@ const App = ({
           }
         />
         <Route exact path="/discussion/:id" component={DiscussionPage} />
+        <Route
+          exact
+          path="/forgot/:token"
+          render={() =>
+            currentUser ? <Redirect to="/timeline" /> : <ForgotPage />
+          }
+        />
+        <Route
+          path="/:errorid"
+          render={() => <ErrorPage>Invalid Url</ErrorPage>}
+        />
       </Switch>
       {userError && userError.response ? (
         <div className="app-error">
@@ -134,6 +156,21 @@ const App = ({
       ) : (
         ''
       )}
+      {userMessage ? (
+        <div className="app-error">
+          <i style={{ color: '#73D673' }} className="fas fa-check-circle"></i>
+          <div className="app-error__content">
+            <p className="app-error__text">{userMessage}</p>
+          </div>
+          <button
+            className="app-error__button"
+            onClick={() => cleanUserMessage()}>
+            OK
+          </button>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };
@@ -142,14 +179,16 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   userError: selectErrorUser,
   commentError: selectErrorComment,
-  discussionError: selectErrorDiscussion
+  discussionError: selectErrorDiscussion,
+  userMessage: selectMessageUser
 });
 
 const mapDispatchToProps = (dispatch) => ({
   removeCurrentUser: () => dispatch(removeCurrentUser()),
   cleanErrorUser: () => dispatch(cleanErrorUser()),
   cleanErrorDiscussion: () => dispatch(cleanErrorDiscussion()),
-  cleanErrorComment: () => dispatch(cleanErrorComment())
+  cleanErrorComment: () => dispatch(cleanErrorComment()),
+  cleanUserMessage: () => dispatch(cleanMessageUser())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

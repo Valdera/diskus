@@ -21,7 +21,9 @@ import {
   followUserSuccess,
   followUserFailure,
   unfollowUserFailure,
-  unfollowUserSuccess
+  unfollowUserSuccess,
+  resetPasswordFailure,
+  resetPasswordSuccess
 } from './auth.actions';
 import {
   signIn,
@@ -34,7 +36,8 @@ import {
   getMe,
   getUserById,
   follow,
-  unfollow
+  unfollow,
+  resetPassword
 } from '../../api/auth.request';
 
 //* WORKERS
@@ -159,6 +162,23 @@ function* workerUnfollowUser({ payload }) {
   }
 }
 
+function* workerResetPassword({ payload }) {
+  try {
+    const { user, token } = yield resetPassword({
+      password: payload.password,
+      passwordConfirm: payload.passwordConfirm,
+      token: payload.token
+    });
+    const cookies = new Cookies();
+    yield cookies.set('jwt', token, { path: '/' });
+    user.followingDetail = yield getFollowing(cookies.cookies.jwt);
+    user.discussions = yield getDiscussions(cookies.cookies.jwt);
+    yield put(resetPasswordSuccess(user));
+  } catch (err) {
+    yield put(resetPasswordFailure(err));
+  }
+}
+
 //* WATCHERS
 function* watchSignUpStart() {
   yield takeLatest(AuthActionTypes.EMAIL_SIGN_UP_START, workerSignUp);
@@ -200,6 +220,10 @@ function* watchUnfollowUserStart() {
   yield takeLatest(AuthActionTypes.UNFOLLOW_USER_START, workerUnfollowUser);
 }
 
+function* watchResetPasswordStart() {
+  yield takeLatest(AuthActionTypes.RESET_PASSWORD_START, workerResetPassword);
+}
+
 export function* authSagas() {
   yield all([
     call(watchSignInStart),
@@ -211,6 +235,7 @@ export function* authSagas() {
     call(watchGetMeStart),
     call(watchGetUserStart),
     call(watchUnfollowUserStart),
-    call(watchFollowUserStart)
+    call(watchFollowUserStart),
+    call(watchResetPasswordStart)
   ]);
 }

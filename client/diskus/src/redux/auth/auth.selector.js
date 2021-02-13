@@ -16,3 +16,8 @@ export const selectErrorUser = createSelector(
   [selectUser],
   (auth) => auth.error
 );
+
+export const selectMessageUser = createSelector(
+  [selectUser],
+  (auth) => auth.message
+);

@@ -160,3 +160,22 @@ export const removeCurrentUser = () => ({
 export const cleanErrorUser = () => ({
   type: AuthActionTypes.CLEAN_ERROR_USER
 });
+
+export const cleanMessageUser = () => ({
+  type: AuthActionTypes.CLEAN_MESSAGE_USER
+});
+
+export const resetPasswordStart = (data) => ({
+  type: AuthActionTypes.RESET_PASSWORD_START,
+  payload: data
+});
+
+export const resetPasswordFailure = (err) => ({
+  type: AuthActionTypes.RESET_PASSWORD_FAILURE,
+  payload: err
+});
+
+export const resetPasswordSuccess = (user) => ({
+  type: AuthActionTypes.RESET_PASSWORD_SUCCESS,
+  payload: user
+});

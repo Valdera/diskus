@@ -25,7 +25,7 @@ export const signUp = async ({ email, password, passwordConfirm, name }) => {
   return { token, user };
 };
 
-export const forgotPassword = async ({ email }) => {
+export const forgotPassword = async (email) => {
   const doc = await axios.post(`${url}/api/users/forgotPassword`, {
     email
   });
@@ -108,8 +108,6 @@ export const getUserById = async ({ jwt, id }) => {
   return user;
 };
 
-//{{URL}}/api/users/follow/602103446b160c3588348db3
-
 export const follow = async ({ jwt, id }) => {
   const doc = await axios.patch(
     `${url}/api/users/follow/${id}`,
@@ -138,4 +136,12 @@ export const unfollow = async ({ jwt, id }) => {
 
   const user = doc.data.data.data;
   return user;
+};
+
+export const resetPassword = async ({ password, passwordConfirm, token }) => {
+  const doc = await axios.patch(`${url}/api/users/resetPassword/${token}`, {
+    password,
+    passwordConfirm
+  });
+  return { user: doc.data.data.user, token: doc.data.token };
 };

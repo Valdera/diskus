@@ -1,0 +1,30 @@
+@import '../../sass/main.scss';
+
+.errorpage {
+  margin-top: 8vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 92vh;
+  padding-top: 5rem;
+
+  &__svg {
+    & > * {
+      width: 35rem;
+      height: 35rem;
+    }
+  }
+
+  h2 {
+    color: $color-primary;
+    font-size: 3rem;
+    font-family: $font-display;
+  }
+
+  p {
+    font-size: 1.5rem;
+    span {
+      color: $color-secondary;
+    }
+  }
+}

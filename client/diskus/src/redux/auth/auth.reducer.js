@@ -67,6 +67,17 @@ const authReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: null
       };
+    case AuthActionTypes.CLEAN_MESSAGE_USER:
+      return {
+        ...state,
+        message: null
+      };
+    case AuthActionTypes.RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        currentUser: action.payload
+      };
+    case AuthActionTypes.RESET_PASSWORD_FAILURE:
     case AuthActionTypes.UPDATE_ME_FAILURE:
     case AuthActionTypes.DELETE_ME_FAILURE:
     case AuthActionTypes.EMAIL_SIGN_UP_FAILURE:
