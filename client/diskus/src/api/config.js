@@ -1,3 +1,3 @@
 export const Config = {
-  URL: 'http://127.0.0.1:3000'
+  URL: 'http://47.254.200.10:3000'
 };
