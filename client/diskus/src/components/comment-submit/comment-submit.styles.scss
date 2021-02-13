@@ -7,6 +7,10 @@
   display: grid;
   grid-template-columns: max-content 1fr max-content;
   grid-column-gap: 1.5rem;
+  @include respond(phone) {
+    grid-column-gap: 1rem;
+    padding: 2rem 1.5rem;
+  }
 
   &__input {
     border-radius: 10px;
@@ -38,7 +42,9 @@
     font-family: $font-primary;
     padding: 1rem 2rem;
     transition: all 0.3s;
-
+    @include respond(phone) {
+      padding: 0.7rem 1rem;
+    }
     &:hover {
       transform: scale(1.07);
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import ProfilePicture from '../../components/profile-picture/profile-picture.component';
@@ -23,26 +23,19 @@ const BioPage = ({
   unfollowStart,
   currentUser
 }) => {
-  const [isFollower, setIsFollower] = useState('');
-
   const getUser = async () => {
     await getUserStart(match.params.id);
   };
 
   useEffect(() => {
     getUser();
-    if (currentUser) {
-      setIsFollower(user.follower.includes(currentUser.id));
-    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const followUser = async () => {
-    setIsFollower(true);
     await followStart(user.id);
   };
 
   const unfollowUser = async () => {
-    setIsFollower(false);
     await unfollowStart(user.id);
   };
 
@@ -52,7 +45,7 @@ const BioPage = ({
         <div className="biopage__picture">
           <ProfilePicture src={user.image} type="large" />
           {currentUser && user.id !== currentUser.id ? (
-            isFollower ? (
+            user.follower.includes(currentUser.id) ? (
               <RadiusButton
                 custom="orange-smallflip"
                 onClick={() => unfollowUser()}>

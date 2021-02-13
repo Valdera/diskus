@@ -11,7 +11,7 @@ exports.uploadStorageFirebase = Model =>
         req.file.originalname.split('.')[0]
       }_${Date.now()}`;
 
-      const token = 'fc4f4ab3-50c0-450a-880e-8b888616346c';
+      const token = process.env.FIREBASE_TOKEN;
 
       const blob = firebase.bucket.file(newFileName);
 
@@ -29,7 +29,7 @@ exports.uploadStorageFirebase = Model =>
       });
 
       await blobWriter.on('finish', () => {
-        const url = `https://firebasestorage.googleapis.com/v0/b/diskus-app.appspot.com/o/${newFileName}?alt=media&token=${token}`;
+        const url = `${process.env.FIREBASE_URL}/o/${newFileName}?alt=media&token=${token}`;
         req.body.image = url;
         console.log(req.body.image);
         next();

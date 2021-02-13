@@ -23,7 +23,8 @@ import {
   unfollowUserFailure,
   unfollowUserSuccess,
   resetPasswordFailure,
-  resetPasswordSuccess
+  resetPasswordSuccess,
+  getUserStart
 } from './auth.actions';
 import {
   signIn,
@@ -46,6 +47,8 @@ function* workerSignUp({ payload }) {
     const { user, token } = yield signUp(payload);
     const cookies = new Cookies();
     yield cookies.set('jwt', token, { path: '/' });
+    user.followingDetail = yield getFollowing(cookies.cookies.jwt);
+    user.discussions = yield getDiscussions(cookies.cookies.jwt);
     yield put(emailSignUpSuccess(user));
   } catch (err) {
     yield put(emailSignUpFailure(err));
@@ -145,7 +148,9 @@ function* workerFollowUser({ payload }) {
     const cookies = new Cookies();
     yield cookies.get('jwt', { path: '/' });
     yield follow({ jwt: cookies.cookies.jwt, id: payload });
+
     yield put(followUserSuccess());
+    yield put(getUserStart(payload));
   } catch (err) {
     yield put(followUserFailure(err));
   }
@@ -157,6 +162,7 @@ function* workerUnfollowUser({ payload }) {
     yield cookies.get('jwt', { path: '/' });
     yield unfollow({ jwt: cookies.cookies.jwt, id: payload });
     yield put(unfollowUserSuccess());
+    yield put(getUserStart(payload));
   } catch (err) {
     yield put(unfollowUserFailure(err));
   }

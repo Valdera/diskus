@@ -1,6 +1,7 @@
 @import '../../sass/main.scss';
 
 .category {
+  display: inline-block;
   cursor: pointer;
   background-color: $color-primary;
   color: $color-white;
@@ -8,6 +9,10 @@
   border-radius: 20px;
   font-size: 1.3rem;
   transition: all 0.3s;
+  @include respond(phone) {
+    font-size: 1.1rem;
+    padding: 0.5rem 2rem;
+  }
 
   &:hover {
     transform: scale(1.1);

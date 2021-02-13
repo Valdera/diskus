@@ -1,8 +1,9 @@
 import React from 'react';
 import './homepage.styles.scss';
 import { ReactComponent as HomeSvg } from '../../assets/home-svg.svg';
+import { withRouter } from 'react-router-dom';
 
-const HomePage = () => {
+const HomePage = ({ history }) => {
   return (
     <div className="homepage">
       <div className="homepage__content">
@@ -14,7 +15,7 @@ const HomePage = () => {
           terdaftar dapat mengirimkan konten seperti tautan, kiriman teks, dan
           gambar, yang kemudian dapat dikomentari oleh anggota lain.
         </p>
-        <button>Daftar Sekarang</button>
+        <button onClick={() => history.push('/login')}>Daftar Sekarang</button>
       </div>
       <div className="homepage__svg">
         <HomeSvg />
@@ -23,4 +24,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default withRouter(HomePage);

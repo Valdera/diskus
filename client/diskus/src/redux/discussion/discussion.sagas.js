@@ -2,6 +2,7 @@ import { DiscussionActionTypes } from './discussion.types';
 import { all, takeLatest, call, put } from 'redux-saga/effects';
 import Cookies from 'universal-cookie';
 import {
+  fetchDiscussionsStart,
   fetchDiscussionsFailure,
   fetchDiscussionsSuccess,
   createDiscussionFailure,
@@ -31,6 +32,14 @@ function* workerCreateDiscussion({ payload }) {
     });
     yield put(createDiscussionSuccess());
     yield put(getMeStart());
+    yield put(
+      fetchDiscussionsStart({
+        categories: [],
+        page: 1,
+        limit: 10,
+        sort: '-createdDate'
+      })
+    );
   } catch (err) {
     yield put(createDiscussionFailure(err));
   }

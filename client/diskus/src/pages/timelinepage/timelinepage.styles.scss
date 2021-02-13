@@ -5,6 +5,7 @@
   margin-top: 8vh;
   padding: 0 20rem;
   padding-top: 3rem;
+
   min-height: 92vh;
   display: flex;
   flex-direction: column;
@@ -37,6 +38,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    // display: grid;
+    // grid-template-columns: minmax(min-content, 90vw);
     @include respond(phone) {
       margin-top: 2rem;
     }

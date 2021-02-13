@@ -22,17 +22,17 @@ const Comment = ({ comment }) => {
       <div className="comment__sentiment">
         <p className="comment__sentiment--text">Sentiment</p>
         <p className="comment__sentiment--text">Analysis</p>
-        {comment.sentiment > 1 ? (
+        {comment.sentiment > 0.5 ? (
           <i style={{ color: '#08F48C' }} className="fas fa-smile"></i>
         ) : (
           ''
         )}
-        {comment.sentiment < -1 ? (
+        {comment.sentiment < -0.5 ? (
           <i style={{ color: '#E11820' }} className="fas fa-frown"></i>
         ) : (
           ''
         )}
-        {comment.sentiment > -1 && comment.sentiment < 1 ? (
+        {comment.sentiment > -0.5 && comment.sentiment < 0.5 ? (
           <i style={{ color: '#A4A7AB' }} className="fas fa-meh"></i>
         ) : (
           ''

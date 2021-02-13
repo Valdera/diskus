@@ -2,10 +2,12 @@
 
 .submit {
   height: 100%;
+  // position: relative;
   width: 80%;
   display: grid;
   grid-template-rows: repeat(3, max-content) max-content max-content;
   grid-row-gap: 1rem;
+  grid-template-columns: 100%;
 
   h1 {
     font-family: $font-display;
@@ -15,6 +17,7 @@
   }
 
   &__input {
+    width: 100%;
     p {
       font-size: 1.5rem;
       color: $color-secondary;

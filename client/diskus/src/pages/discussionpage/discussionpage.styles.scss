@@ -1,6 +1,8 @@
 @import '../../sass/main.scss';
 
 .discussionpage {
+  min-height: 92vh;
+
   margin-top: 8vh;
   padding: 0 30rem;
   padding-bottom: 5rem;
@@ -44,6 +46,7 @@
 
   &__nologin {
     cursor: pointer;
+    position: relative;
     background-color: $color-primary;
     color: $color-white;
     border-radius: 20px;
