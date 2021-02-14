@@ -10,7 +10,7 @@
   animation: opacityFull 1s;
 
   @include respond(phone) {
-    width: 95%;
+    width: 100%;
   }
 
   &__vote {
@@ -37,7 +37,7 @@
   &__content {
     width: 100%;
     cursor: pointer;
-    margin-left: 2rem;
+    padding-left: 2rem;
     display: flex;
     flex-direction: column;
 
@@ -51,6 +51,8 @@
     }
 
     h2 {
+      word-break: break-all;
+
       font-size: 2rem;
       line-height: 1;
       color: $color-secondary;
@@ -64,6 +66,8 @@
     }
 
     p {
+      word-break: break-all;
+
       font-size: 1.3rem;
 
       span {

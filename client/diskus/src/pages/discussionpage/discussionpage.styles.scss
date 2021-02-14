@@ -31,6 +31,7 @@
       color: $color-primary;
       line-height: 1;
       font-size: 2.1rem;
+      word-break: break-all;
     }
     & > * {
       &:not(:first-child) {

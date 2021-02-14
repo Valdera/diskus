@@ -22,6 +22,8 @@
     }
 
     &-text {
+      word-break: break-all;
+
       align-self: stretch;
       margin-left: 2rem;
       font-family: $font-display;
@@ -192,6 +194,8 @@
   }
 
   &__fill {
+    word-break: break-all;
+
     font-size: 1.4rem;
   }
 }

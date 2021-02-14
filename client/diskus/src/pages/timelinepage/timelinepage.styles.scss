@@ -5,7 +5,6 @@
   margin-top: 8vh;
   padding: 0 20rem;
   padding-top: 3rem;
-
   min-height: 92vh;
   display: flex;
   flex-direction: column;
@@ -33,6 +32,7 @@
   }
 
   &__post {
+    width: 100%;
     margin-top: 3rem;
     margin-bottom: 5rem;
     display: flex;

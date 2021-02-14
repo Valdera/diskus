@@ -12,9 +12,11 @@
   padding: 1.2rem 2rem;
   &__text {
     font-size: 1.3rem;
+    word-break: break-all;
   }
   &__date {
     font-size: 1.2rem;
+    word-break: break-all;
 
     color: $color-primary;
   }

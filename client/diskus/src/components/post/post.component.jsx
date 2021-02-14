@@ -54,7 +54,7 @@ const Post = ({
         className="post__content"
         onClick={() => history.push(`/discussion/${discussion.id}`)}>
         <div>
-          <h2>{discussion.title}</h2>
+          <h2>{discussion.title.substring(0, 50)}</h2>
           <span>
             Posted on {convertDate(discussion.createdDate)} by{' '}
             {discussion.user.name}
