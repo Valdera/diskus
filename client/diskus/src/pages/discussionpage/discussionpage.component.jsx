@@ -35,7 +35,7 @@ const DiscussionPage = ({
     <div className="discussionpage">
       {selectedDiscussion ? (
         <div className="discussionpage__discussion">
-          <Discussion discussion={selectedDiscussion} />
+          <Discussion history={history} discussion={selectedDiscussion} />
         </div>
       ) : (
         <div className="discussionpage__spinner">
@@ -55,7 +55,7 @@ const DiscussionPage = ({
             </div>
           )}
           {selectedDiscussion.comments.map((comment) => (
-            <Comment comment={comment} />
+            <Comment comment={comment} key={comment.id} />
           ))}
         </div>
       ) : (

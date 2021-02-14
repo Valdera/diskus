@@ -62,3 +62,17 @@ export const voteSuccess = (payload) => ({
 export const cleanErrorDiscussion = () => ({
   type: DiscussionActionTypes.CLEAN_ERROR_DISCUSSION
 });
+
+export const deleteDiscussionStart = (id) => ({
+  type: DiscussionActionTypes.DELETE_DISCUSSION_START,
+  payload: id
+});
+
+export const deleteDiscussionFailure = (err) => ({
+  type: DiscussionActionTypes.DELETE_DISCUSSION_FAILURE,
+  payload: err
+});
+
+export const deleteDiscussionSuccess = () => ({
+  type: DiscussionActionTypes.DELETE_DISCUSSION_SUCCESS
+});

@@ -28,7 +28,6 @@ exports.searchDiscussion = catchAsync(async (req, res, next) => {
     .paginate();
 
   const doc = await features.query;
-  // console.log(doc);
 
   const miniSearch = new MiniSearch({
     fields: ['text'],

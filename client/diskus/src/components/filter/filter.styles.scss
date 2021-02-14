@@ -10,6 +10,7 @@
   width: 100%;
   align-items: center;
   position: relative;
+  animation: moveInTop 0.8s;
 
   @include respond(phone) {
     font-size: 1.3rem;

@@ -15,8 +15,6 @@ exports.upvote = Model =>
     }
     doc.downvote.pop(mongoose.Types.ObjectId(req.user.id));
 
-    console.log(doc.upvote.length - doc.downvote.length);
-
     const result = await Model.findByIdAndUpdate(req.params.id, {
       vote: doc.upvote.length - doc.downvote.length
     });
@@ -44,8 +42,6 @@ exports.downvote = Model =>
       doc.downvote.push(mongoose.Types.ObjectId(req.user.id));
     }
     doc.upvote.pop(mongoose.Types.ObjectId(req.user.id));
-
-    console.log(doc.upvote.length - doc.downvote.length);
 
     const result = await Model.findByIdAndUpdate(req.params.id, {
       vote: doc.upvote.length - doc.downvote.length

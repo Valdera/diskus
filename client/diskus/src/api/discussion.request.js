@@ -72,7 +72,6 @@ export const getPopular = async () => {
 };
 
 export const vote = async ({ jwt, id, type, vote }) => {
-  console.log(jwt);
   await axios.patch(
     `${url}/api/${type}/${vote}/${id}`,
     {},
@@ -82,4 +81,13 @@ export const vote = async ({ jwt, id, type, vote }) => {
       }
     }
   );
+};
+
+export const deleteDiscussion = async ({ jwt, id }) => {
+  const data = await axios.delete(`${url}/api/discussions/${id}`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  });
+  return data;
 };

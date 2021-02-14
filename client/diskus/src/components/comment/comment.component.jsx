@@ -1,17 +1,22 @@
 import React from 'react';
 import ProfilePicture from '../../components/profile-picture/profile-picture.component';
+import { withRouter } from 'react-router-dom';
+
 import Vote from '../../components/vote/vote.component';
 import { convertDate } from '../../utils/convertDate';
 import './comment.styles.scss';
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, history }) => {
   return (
     <div className="comment">
       <div className="comment__vote">
         <Vote item={comment} type="comments" />
       </div>
       <div className="comment__picture">
-        <ProfilePicture src={comment.user.image} />
+        <ProfilePicture
+          src={comment.user.image}
+          handleClick={() => history.push(`/bio/${comment.user.id}`)}
+        />
       </div>
       <div className="comment__content">
         <p className="comment__date">{`Commented on ${convertDate(
@@ -38,10 +43,10 @@ const Comment = ({ comment }) => {
           ''
         )}
 
-        <span>{comment.sentiment}</span>
+        <span>{Math.round(comment.sentiment * 100) / 100}</span>
       </div>
     </div>
   );
 };
 
-export default Comment;
+export default withRouter(Comment);

@@ -19,6 +19,8 @@
     padding-bottom: 5rem;
   }
   &__discussion {
+    animation: moveInTop 0.8s;
+
     padding-top: 2rem;
   }
 
@@ -45,6 +47,8 @@
   }
 
   &__nologin {
+    animation: moveInLeft 1s;
+
     cursor: pointer;
     position: relative;
     background-color: $color-primary;

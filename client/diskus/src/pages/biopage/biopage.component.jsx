@@ -71,7 +71,9 @@ const BioPage = ({
           </div>
         </div>
       ) : (
-        ''
+        <div className="biopage__spinner">
+          <Spinner />
+        </div>
       )}
 
       {user ? <h2 className="biopage__title">Fauzan Valdera's Post</h2> : ''}
@@ -85,14 +87,6 @@ const BioPage = ({
               clickableVote={false}
             />
           ))}
-        </div>
-      ) : (
-        ''
-      )}
-
-      {!user ? (
-        <div className="biopage__spinner">
-          <Spinner />
         </div>
       ) : (
         ''

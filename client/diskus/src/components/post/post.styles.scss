@@ -7,12 +7,31 @@
   border-radius: 20px;
   display: grid;
   grid-template-columns: max-content 1fr;
+  animation: opacityFull 1s;
 
   @include respond(phone) {
     width: 95%;
   }
 
   &__vote {
+  }
+
+  &__icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__delete {
+    cursor: pointer;
+    margin-top: 0.2rem;
+    transition: all 0.3s;
+    font-size: 1.7rem;
+    color: rgba($color-grey-dark, 0.6);
+    &:hover {
+      color: #e11820;
+      transform: scale(1.1);
+    }
   }
 
   &__content {

@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   selectCurrentUser,
+  selectIsLoadingUser,
   selectMessageUser
 } from './redux/auth/auth.selector';
 import { createStructuredSelector } from 'reselect';
@@ -17,17 +18,25 @@ import LoginPage from './pages/loginpage/loginpage.component';
 import DiscussionPage from './pages/discussionpage/discussionpage.component';
 import ForgotPage from './pages/forgotpage/forgotpage.component';
 import ErrorPage from './pages/errorpage/errorpage.component';
+import Footer from './components/footer/footer.component';
 import {
   cleanErrorUser,
   removeCurrentUser,
   cleanMessageUser
 } from './redux/auth/auth.actions';
 import Cookies from 'universal-cookie';
-import { selectErrorDiscussion } from './redux/discussion/discussion.selector';
+import {
+  selectErrorDiscussion,
+  selectIsLoadingDiscussion
+} from './redux/discussion/discussion.selector';
 import { selectErrorUser } from './redux/auth/auth.selector';
-import { selectErrorComment } from './redux/comment/comment.selector';
+import {
+  selectErrorComment,
+  selectIsLoadingComment
+} from './redux/comment/comment.selector';
 import { cleanErrorDiscussion } from './redux/discussion/discussion.actions';
 import { cleanErrorComment } from './redux/comment/comment.actions';
+import DotLoad from './components/dotload/dotload.component';
 
 const App = ({
   currentUser,
@@ -39,7 +48,10 @@ const App = ({
   cleanErrorDiscussion,
   cleanErrorUser,
   cleanUserMessage,
-  userMessage
+  userMessage,
+  userLoading,
+  commentLoading,
+  discussionLoading
 }) => {
   const checkUser = async () => {
     const cookies = new Cookies();
@@ -78,7 +90,14 @@ const App = ({
           exact
           path="/login"
           render={() =>
-            currentUser ? <Redirect to="/timeline" /> : <LoginPage />
+            currentUser ? (
+              <Redirect to="/timeline" />
+            ) : (
+              <div>
+                {' '}
+                <LoginPage /> <Footer />
+              </div>
+            )
           }
         />
         <Route exact path="/discussion/:id" component={DiscussionPage} />
@@ -171,6 +190,13 @@ const App = ({
       ) : (
         ''
       )}
+      {userLoading || commentLoading || discussionLoading ? (
+        <div className="app-dot">
+          <DotLoad />
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };
@@ -180,7 +206,10 @@ const mapStateToProps = createStructuredSelector({
   userError: selectErrorUser,
   commentError: selectErrorComment,
   discussionError: selectErrorDiscussion,
-  userMessage: selectMessageUser
+  userMessage: selectMessageUser,
+  userLoading: selectIsLoadingUser,
+  commentLoading: selectIsLoadingComment,
+  discussionLoading: selectIsLoadingDiscussion
 });
 
 const mapDispatchToProps = (dispatch) => ({

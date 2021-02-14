@@ -77,6 +77,7 @@ const ProfilePage = ({ currentUser, getMeStart }) => {
                 discussion={discussion}
                 key={discussion.id}
                 clickableVote={false}
+                trash={true}
               />
             ))}
         </div>

@@ -1,0 +1,43 @@
+@import '../../sass/main.scss';
+
+.footer {
+  min-height: 15vh;
+  background-color: $color-primary;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  &__social {
+    display: flex;
+    & > * {
+      &:not(:last-child) {
+        margin-right: 2rem;
+      }
+    }
+  }
+
+  &__item {
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    display: flex;
+    width: 4.5rem;
+    border-radius: 10px;
+    height: 4.5rem;
+    background-color: $color-white;
+    color: $color-primary;
+    transition: all 0.3s;
+    &:hover {
+      color: $color-secondary;
+      transform: scale(1.1);
+    }
+  }
+}

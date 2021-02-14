@@ -24,6 +24,7 @@
     display: grid;
     grid-template-columns: max-content 1fr;
     grid-column-gap: 2rem;
+    animation: moveInTop 0.8s;
   }
 
   &__picture {

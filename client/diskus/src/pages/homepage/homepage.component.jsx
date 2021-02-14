@@ -11,9 +11,10 @@ const HomePage = ({ history }) => {
           Platform <span>Diskusi</span> dan Berita
         </h1>
         <p>
-          <span>Diskus</span> adalah situs web diskusi dan berita. Anggota yang
-          terdaftar dapat mengirimkan konten seperti tautan, kiriman teks, dan
-          gambar, yang kemudian dapat dikomentari oleh anggota lain.
+          <span>Diskus</span> adalah platform website untuk berdiskusi dan
+          sharing berita. User yang terdaftar dapat mengirimkan konten seperti
+          tautan, kiriman teks, dan gambar, yang kemudian dapat dikomentari oleh
+          user lain.
         </p>
         <button onClick={() => history.push('/login')}>Daftar Sekarang</button>
       </div>

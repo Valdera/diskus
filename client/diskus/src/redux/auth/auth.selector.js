@@ -21,3 +21,8 @@ export const selectMessageUser = createSelector(
   [selectUser],
   (auth) => auth.message
 );
+
+export const selectIsLoadingUser = createSelector(
+  [selectUser],
+  (auth) => auth.isLoading
+);

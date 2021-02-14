@@ -4,11 +4,17 @@ const INITIAL_STATE = {
   discussions: null,
   selectedDiscussion: null,
   isFetching: false,
-  error: null
+  error: null,
+  isLoading: false
 };
 
 const discussionReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case DiscussionActionTypes.CREATE_DISCUSSION_START:
+      return {
+        ...state,
+        isLoading: true
+      };
     case DiscussionActionTypes.FETCH_DISCUSSIONS_START:
       return {
         ...state,
@@ -30,12 +36,29 @@ const discussionReducer = (state = INITIAL_STATE, action) => {
     case DiscussionActionTypes.CREATE_DISCUSSION_SUCCESS:
       return {
         ...state,
-        error: null
+        error: null,
+        isLoading: false
       };
     case DiscussionActionTypes.CREATE_DISCUSSION_FAILURE:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        isLoading: false
+      };
+    case DiscussionActionTypes.DELETE_DISCUSSION_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case DiscussionActionTypes.DELETE_DISCUSSION_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case DiscussionActionTypes.DELETE_DISCUSSION_FAILURE:
+      return {
+        ...state,
+        isLoading: false
       };
     case DiscussionActionTypes.GET_DISCUSSION_START:
       return {

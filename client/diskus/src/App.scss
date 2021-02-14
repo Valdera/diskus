@@ -28,6 +28,15 @@ body {
   position: relative;
 }
 
+.app-dot {
+  position: absolute;
+  top: 25vh;
+  left: 50%;
+  z-index: 100000;
+
+  transform: translateX(-50%);
+}
+
 .app-error {
   max-width: 50rem;
   font-size: 1.5rem;

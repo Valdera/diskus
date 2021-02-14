@@ -21,3 +21,8 @@ export const selectErrorDiscussion = createSelector(
   [selectDiscussion],
   (discussion) => discussion.error
 );
+
+export const selectIsLoadingDiscussion = createSelector(
+  [selectDiscussion],
+  (discussion) => discussion.isLoading
+);

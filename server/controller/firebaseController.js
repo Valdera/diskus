@@ -25,13 +25,12 @@ exports.uploadStorageFirebase = Model =>
       });
 
       blobWriter.on('error', err => {
-        console.log(err);
+        return next(new AppError(err, 400));
       });
 
       await blobWriter.on('finish', () => {
         const url = `${process.env.FIREBASE_URL}/o/${newFileName}?alt=media&token=${token}`;
         req.body.image = url;
-        console.log(req.body.image);
         next();
       });
 

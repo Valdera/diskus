@@ -2,11 +2,24 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Category from '../category/category.component';
 import ProfilePicture from '../profile-picture/profile-picture.component';
+import { deleteDiscussionStart } from '../../redux/discussion/discussion.actions';
+import { connect } from 'react-redux';
+
 import Vote from '../vote/vote.component';
 import { convertDate } from '../../utils/convertDate';
 import './post.styles.scss';
 
-const Post = ({ history, discussion, clickableVote }) => {
+const Post = ({
+  history,
+  discussion,
+  deleteDiscussionStart,
+  clickableVote,
+  trash = false
+}) => {
+  const deleteDiscussion = async () => {
+    await deleteDiscussionStart(discussion.id);
+  };
+
   return (
     <div className="post">
       <div className="post__icon">
@@ -26,6 +39,13 @@ const Post = ({ history, discussion, clickableVote }) => {
             <i className="fas fa-comments"></i>
             <span>{discussion.comments.length}</span>
           </div>
+        ) : (
+          ''
+        )}
+        {trash ? (
+          <i
+            class="fas fa-trash-alt post__delete"
+            onClick={() => deleteDiscussion()}></i>
         ) : (
           ''
         )}
@@ -54,4 +74,8 @@ const Post = ({ history, discussion, clickableVote }) => {
   );
 };
 
-export default withRouter(Post);
+const mapDispatchToProps = (dispatch) => ({
+  deleteDiscussionStart: (payload) => dispatch(deleteDiscussionStart(payload))
+});
+
+export default withRouter(connect(null, mapDispatchToProps)(Post));

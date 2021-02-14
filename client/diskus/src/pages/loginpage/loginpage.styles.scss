@@ -8,6 +8,7 @@
   justify-content: center;
   grid-column-gap: 30rem;
   padding-top: 5rem;
+  min-height: 77vh;
   padding-bottom: 5rem;
 
   @include respond(tab-port) {
@@ -28,11 +29,10 @@
         margin-top: 2rem;
       }
     }
-  }
-
-  &__signin {
+    animation: moveInLeft 0.8s;
   }
 
   &__signup {
+    animation: moveInRight 0.8s;
   }
 }

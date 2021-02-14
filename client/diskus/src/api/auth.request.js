@@ -119,7 +119,6 @@ export const follow = async ({ jwt, id }) => {
     }
   );
   const user = doc.data.data.data;
-  console.log(user);
   return user;
 };
 

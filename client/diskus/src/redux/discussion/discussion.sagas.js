@@ -10,12 +10,15 @@ import {
   getDiscussionSuccess,
   getDiscussionFailure,
   voteSuccess,
-  voteFailure
+  voteFailure,
+  deleteDiscussionFailure,
+  deleteDiscussionSuccess
 } from './discussion.actions';
 import {
   getAllDiscussions,
   createDiscussion,
   getDiscussionById,
+  deleteDiscussion,
   vote
 } from '../../api/discussion.request';
 import { getMeStart } from '../auth/auth.actions';
@@ -79,6 +82,18 @@ function* fetchDiscussionsAsync({ payload }) {
   }
 }
 
+function* workereDeleteDiscussion({ payload }) {
+  try {
+    const jwt = new Cookies();
+    yield jwt.get('jwt', { path: '/' });
+    yield deleteDiscussion({ jwt: jwt.cookies.jwt, id: payload });
+    yield put(deleteDiscussionSuccess());
+    yield put(getMeStart());
+  } catch (err) {
+    yield put(deleteDiscussionFailure(err));
+  }
+}
+
 //* WATCHERS
 
 function* watchFetchDiscussionsStart() {
@@ -106,11 +121,19 @@ function* watchVoteStart() {
   yield takeLatest(DiscussionActionTypes.VOTE_START, workerVote);
 }
 
+function* watchDeleteDiscussionStart() {
+  yield takeLatest(
+    DiscussionActionTypes.DELETE_DISCUSSION_START,
+    workereDeleteDiscussion
+  );
+}
+
 export function* discussionSagas() {
   yield all([
     call(watchFetchDiscussionsStart),
     call(watchCreateDiscussionStart),
     call(watchGetDiscussionStart),
-    call(watchVoteStart)
+    call(watchVoteStart),
+    call(watchDeleteDiscussionStart)
   ]);
 }

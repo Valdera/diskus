@@ -31,6 +31,8 @@
   }
 
   &__svg {
+    animation: opacityUp 0.8s;
+
     & > * {
       transform: scale(1.2) translateY(1rem);
       width: 100%;
@@ -48,7 +50,7 @@
     grid-template-rows: max-content max-content 1fr;
     grid-row-gap: 4rem;
     justify-content: start;
-
+    animation: moveInLeft 0.8s;
     h1 {
       display: block;
       font-family: $font-display;

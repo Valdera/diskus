@@ -7,6 +7,8 @@
   display: grid;
   grid-template-columns: max-content 1fr max-content;
   grid-column-gap: 1.5rem;
+  animation: moveInLeft 1s;
+
   @include respond(phone) {
     grid-column-gap: 1rem;
     padding: 2rem 1.5rem;
