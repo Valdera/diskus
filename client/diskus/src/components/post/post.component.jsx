@@ -44,7 +44,7 @@ const Post = ({
         )}
         {trash ? (
           <i
-            class="fas fa-trash-alt post__delete"
+            className="fas fa-trash-alt post__delete"
             onClick={() => deleteDiscussion()}></i>
         ) : (
           ''

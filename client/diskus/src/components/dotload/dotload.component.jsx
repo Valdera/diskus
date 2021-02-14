@@ -3,7 +3,7 @@ import React from 'react';
 import './dotload.styles.scss';
 const DotLoad = () => {
   return (
-    <div class="bouncer">
+    <div className="bouncer">
       <div></div>
       <div></div>
       <div></div>

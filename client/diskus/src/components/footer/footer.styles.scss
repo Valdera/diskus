@@ -17,6 +17,7 @@
   &__social {
     display: flex;
     & > * {
+      text-decoration: none;
       &:not(:last-child) {
         margin-right: 2rem;
       }

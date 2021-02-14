@@ -22,7 +22,7 @@
     }
 
     &-text {
-      word-break: break-all;
+      word-break: break-word;
 
       align-self: stretch;
       margin-left: 2rem;
@@ -194,7 +194,7 @@
   }
 
   &__fill {
-    word-break: break-all;
+    word-break: break-word;
 
     font-size: 1.4rem;
   }

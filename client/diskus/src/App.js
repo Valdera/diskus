@@ -117,9 +117,7 @@ const App = ({
         <div className="app-error">
           <i className="fas fa-exclamation-triangle app-error__icon"></i>
           <div className="app-error__content">
-            <p className="app-error__code">
-              {userError.response.data.error.statusCode}
-            </p>
+            <p className="app-error__code">{userError.response.status}</p>
             <p className="app-error__text">{userError.response.data.message}</p>
           </div>
 
@@ -138,9 +136,7 @@ const App = ({
         <div className="app-error">
           <i className="fas fa-exclamation-triangle app-error__icon"></i>
           <div className="app-error__content">
-            <p className="app-error__code">
-              {discussionError.response.data.error.statusCode}
-            </p>
+            <p className="app-error__code">{discussionError.response.status}</p>
             <p className="app-error__text">
               {discussionError.response.data.message}
             </p>
@@ -159,9 +155,7 @@ const App = ({
         <div className="app-error">
           <i className="fas fa-exclamation-triangle app-error__icon"></i>
           <div className="app-error__content">
-            <p className="app-error__code">
-              {commentError.response.data.error.statusCode}
-            </p>
+            <p className="app-error__code">{commentError.response.status}</p>
             <p className="app-error__text">
               {commentError.response.data.message}
             </p>

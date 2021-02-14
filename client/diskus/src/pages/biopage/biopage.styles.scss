@@ -47,7 +47,7 @@
   }
 
   &__text {
-    word-break: break-all;
+    word-break: break-word;
 
     display: grid;
     grid-template-rows: repeat(2, max-content) 1fr;
@@ -69,7 +69,7 @@
   }
 
   &__title {
-    word-break: break-all;
+    word-break: break-word;
 
     margin: 2rem 0;
     font-family: $font-display;

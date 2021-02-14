@@ -51,6 +51,7 @@ function* workerSignUp({ payload }) {
     user.discussions = yield getDiscussions(cookies.cookies.jwt);
     yield put(emailSignUpSuccess(user));
   } catch (err) {
+    console.log(err);
     yield put(emailSignUpFailure(err));
   }
 }

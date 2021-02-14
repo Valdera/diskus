@@ -77,7 +77,8 @@ const authReducer = (state = INITIAL_STATE, action) => {
     case AuthActionTypes.REMOVE_CURRENT_USER:
       return {
         ...state,
-        currentUser: null
+        currentUser: null,
+        isLoading: false
       };
     case AuthActionTypes.CLEAN_ERROR_USER:
       return {
