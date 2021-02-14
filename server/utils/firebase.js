@@ -5,7 +5,7 @@ admin.initializeApp({
   credential: admin.credential.cert(
     'diskus-app-firebase-adminsdk-vyecs-9c84fe019e.json'
   ),
-  storageBucket: `${process.env.STORAGE_BUCKET}`
+  storageBucket: 'gs://diskus-app.appspot.com'
 });
 
 // Cloud storage

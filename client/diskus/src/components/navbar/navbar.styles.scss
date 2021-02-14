@@ -24,9 +24,15 @@
 
   @include respond(phone) {
     padding: 0 2.5rem;
-    grid-template-columns: min-content 1fr max-content;
+    grid-template-columns: min-content 1fr max-content max-content;
+    grid-column-gap: 1.5rem;
+
     &__btn {
-      display: none;
+      // display: none;
+      & > * {
+        padding: 0.5rem 1.1rem;
+        font-size: 1.2rem;
+      }
     }
   }
 
@@ -38,6 +44,10 @@
 
     span {
       color: $color-primary;
+    }
+
+    @include respond(phone) {
+      font-size: 2rem;
     }
   }
 
@@ -75,6 +85,10 @@
     }
 
     @include respond(phone) {
+      padding: 0.5rem 2rem;
+      font-size: 1.2rem;
+      transform: translateX(-1rem);
+
       width: 100%;
       &:focus {
         outline: none;
@@ -94,9 +108,17 @@
     border: none;
     cursor: pointer;
     background-color: $color-white;
-
+    display: flex;
+    align-items: center;
+    @include respond(phone) {
+      // padding-right: 1rem;
+    }
     i {
       color: rgba($color-grey-dark, 0.8);
+      @include respond(phone) {
+        font-size: 1.2rem;
+        z-index: 100;
+      }
     }
   }
 }

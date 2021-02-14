@@ -61,7 +61,7 @@ const Biodata = ({ user, updateMeStart }) => {
 
           <h2>BIODATA</h2>
           {editBio ? (
-            <div class="biodata__head--input">
+            <div className="biodata__head--input">
               <button>Change Image</button>
               <input
                 type="file"

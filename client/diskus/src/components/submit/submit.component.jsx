@@ -14,25 +14,28 @@ const Submit = ({ currentUser, createDiscussionStart, setOpen }) => {
   const [file, setFile] = useState('');
 
   const handleSubmit = async () => {
-    const formdata = new FormData();
-    const data = {};
+    if (title || text) {
+      const formdata = new FormData();
+      const data = {};
 
-    if (file) {
-      formdata.append('file', file);
-      data.formdata = formdata;
+      if (file) {
+        formdata.append('file', file);
+        data.formdata = formdata;
+      }
+      data.discussionData = {
+        title,
+        text,
+        categories
+      };
+      await createDiscussionStart(data);
+
+      setTitle('');
+      setText('');
+      setFile('');
+      setCategories([]);
+
+      if (setOpen) setOpen('submit');
     }
-    data.discussionData = {
-      title,
-      text,
-      categories
-    };
-
-    await createDiscussionStart(data);
-
-    setTitle('');
-    setText('');
-    setFile('');
-    setCategories([]);
   };
 
   return (
@@ -59,12 +62,20 @@ const Submit = ({ currentUser, createDiscussionStart, setOpen }) => {
         <textarea value={text} onChange={(evt) => setText(evt.target.value)} />
       </div>
       <div className="submit__button">
-        <input type="file" onChange={(evt) => setFile(evt.target.files[0])} />
+        <div className="submit__inputfile">
+          <button>Insert Image</button>
+          <input
+            type="file"
+            onChange={(evt) => {
+              setFile(evt.target.files[0]);
+            }}
+          />
+        </div>
+        {file ? <img src={URL.createObjectURL(file)} alt="file" /> : ''}
         <RadiusButton
           custom="flip-orange"
           onClick={() => {
             handleSubmit();
-            if (setOpen) setOpen('submit');
           }}>
           Submit
         </RadiusButton>

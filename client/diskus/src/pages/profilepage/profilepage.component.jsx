@@ -70,13 +70,15 @@ const ProfilePage = ({ currentUser, getMeStart }) => {
       <div className="profilepage__post">
         <h1>Your Post</h1>
         <div className="profilepage__post-list">
-          {currentUser.discussions.map((discussion) => (
-            <Post
-              discussion={discussion}
-              key={discussion.id}
-              clickableVote={false}
-            />
-          ))}
+          {currentUser.discussions
+            .sort((a, b) => (a.createdDate < b.createdDate ? 1 : -1))
+            .map((discussion) => (
+              <Post
+                discussion={discussion}
+                key={discussion.id}
+                clickableVote={false}
+              />
+            ))}
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@
   justify-content: center;
   grid-column-gap: 30rem;
   padding-top: 5rem;
+  padding-bottom: 5rem;
 
   @include respond(tab-port) {
     grid-column-gap: 10rem;
@@ -15,6 +16,7 @@
   @include respond(phone) {
     padding: 0 2rem;
     padding-top: 4rem;
+    padding-bottom: 5rem;
 
     grid-template-columns: max-content;
     grid-row-gap: 5rem;

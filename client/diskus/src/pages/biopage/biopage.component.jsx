@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import ProfilePicture from '../../components/profile-picture/profile-picture.component';
 import RadiusButton from '../../components/radius-button/radius-button.component';
 import Post from '../../components/post/post.component';
+import Spinner from '../../components/spinner/spinner.component';
 import './biopage.styles.scss';
 import {
   selectCurrentUser,
@@ -41,41 +42,61 @@ const BioPage = ({
 
   return (
     <div className="biopage">
-      <div className="biopage__content">
-        <div className="biopage__picture">
-          <ProfilePicture src={user.image} type="large" />
-          {currentUser && user.id !== currentUser.id ? (
-            user.follower.includes(currentUser.id) ? (
-              <RadiusButton
-                custom="orange-smallflip"
-                onClick={() => unfollowUser()}>
-                Unfollow
-              </RadiusButton>
+      {user ? (
+        <div className="biopage__content">
+          <div className="biopage__picture">
+            <ProfilePicture src={user.image} type="large" />
+            {currentUser && user.id !== currentUser.id ? (
+              user.follower.includes(currentUser.id) ? (
+                <RadiusButton
+                  custom="orange-smallflip"
+                  onClick={() => unfollowUser()}>
+                  Unfollow
+                </RadiusButton>
+              ) : (
+                <RadiusButton
+                  custom="orange-small"
+                  onClick={() => followUser()}>
+                  Follow
+                </RadiusButton>
+              )
             ) : (
-              <RadiusButton custom="orange-small" onClick={() => followUser()}>
-                Follow
-              </RadiusButton>
-            )
-          ) : (
-            ''
-          )}
+              ''
+            )}
+          </div>
+          <div className="biopage__text">
+            <h1>{user.name}</h1>
+            <span>Last active 1 days ago</span>
+            <p>{user.description}</p>
+          </div>
         </div>
-        <div className="biopage__text">
-          <h1>{user.name}</h1>
-          <span>Last active 1 days ago</span>
-          <p>{user.description}</p>
+      ) : (
+        ''
+      )}
+
+      {user ? <h2 className="biopage__title">Fauzan Valdera's Post</h2> : ''}
+
+      {user ? (
+        <div className="biopage__post">
+          {user.discussions.map((discussion) => (
+            <Post
+              discussion={discussion}
+              key={discussion.id}
+              clickableVote={false}
+            />
+          ))}
         </div>
-      </div>
-      <h2 className="biopage__title">Fauzan Valdera's Post</h2>
-      <div className="biopage__post">
-        {user.discussions.map((discussion) => (
-          <Post
-            discussion={discussion}
-            key={discussion.id}
-            clickableVote={false}
-          />
-        ))}
-      </div>
+      ) : (
+        ''
+      )}
+
+      {!user ? (
+        <div className="biopage__spinner">
+          <Spinner />
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

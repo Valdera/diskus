@@ -38,6 +38,13 @@
     }
   }
 
+  &__spinner {
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    top: 30vh;
+  }
+
   &__text {
     display: grid;
     grid-template-rows: repeat(2, max-content) 1fr;
