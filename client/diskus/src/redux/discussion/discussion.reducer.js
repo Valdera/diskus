@@ -63,7 +63,8 @@ const discussionReducer = (state = INITIAL_STATE, action) => {
     case DiscussionActionTypes.GET_DISCUSSION_START:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        selectedDiscussion: null
       };
     case DiscussionActionTypes.GET_DISCUSSION_FAILURE:
       return {

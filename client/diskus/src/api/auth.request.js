@@ -144,3 +144,8 @@ export const resetPassword = async ({ password, passwordConfirm, token }) => {
   });
   return { user: doc.data.data.user, token: doc.data.token };
 };
+
+export const getLeaderboard = async () => {
+  const doc = await axios.get(`${url}/api/users/leaderboard`);
+  return doc.data.data.results;
+};

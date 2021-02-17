@@ -37,6 +37,7 @@ import {
 import { cleanErrorDiscussion } from './redux/discussion/discussion.actions';
 import { cleanErrorComment } from './redux/comment/comment.actions';
 import DotLoad from './components/dotload/dotload.component';
+import Leaderboard from './components/leaderboard/leaderboard.component';
 
 const App = ({
   currentUser,
@@ -83,8 +84,25 @@ const App = ({
             !currentUser ? <Redirect to="/login" /> : <ProfilePage />
           }
         />
-        <Route exact path="/timeline" component={TimelinePage} />
-        <Route exact path="/search/:search" component={SearchPage} />
+        <Route
+          exact
+          path="/timeline"
+          render={() => (
+            <div>
+              <TimelinePage />
+              <Leaderboard />
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/search/:search"
+          render={() => (
+            <div>
+              <SearchPage />
+            </div>
+          )}
+        />
         <Route exact path="/bio/:id" component={BioPage} />
         <Route
           exact

@@ -40,7 +40,6 @@ router.patch('/follow/:id', authController.protect, userController.follow);
 router.patch('/unfollow/:id', authController.protect, userController.unfollow);
 router.get('/follow', authController.protect, userController.getFollowing);
 router.get('/leaderboard', userController.getLeaderboard);
-// router.use(authController.restrictTo('admin'));
 
 router
   .route('/:id')

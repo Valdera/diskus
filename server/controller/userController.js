@@ -155,7 +155,7 @@ exports.getLeaderboard = catchAsync(async (req, res, next) => {
 
   req.query.limit = '5';
 
-  const features = new APIFeatures(Discussion.find(filter), req.query)
+  const features = new APIFeatures(User.find(filter), req.query)
     .filter()
     .sort()
     .limitFields()

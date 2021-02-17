@@ -1,0 +1,46 @@
+@import '../../sass/main.scss';
+.leaderboard {
+  position: absolute;
+  width: 26rem;
+  padding: 1.5rem 2rem;
+  top: 15vh;
+  border-radius: 20px;
+  right: 8vw;
+  box-shadow: 0 3rem 5rem rgba($color-grey-dark, 0.2);
+  background-color: $color-white;
+  h3 {
+    font-family: $font-display;
+    font-size: 1.8rem;
+    color: $color-primary;
+    margin-bottom: 1rem;
+  }
+
+  &__item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+    & > * {
+      margin-right: 0.8rem;
+    }
+    p {
+      margin-right: auto;
+    }
+  }
+
+  &__number {
+    background-color: $color-primary;
+    color: $color-white;
+    width: 2rem;
+    border-radius: 50%;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__points {
+    color: $color-secondary;
+  }
+}
