@@ -6,6 +6,7 @@ const factory = require('../controller/handlerFactory');
 const { upload } = require('../utils/imageUpload');
 const firebaseController = require('./firebaseController');
 const Discussion = require('../models/discussionModel');
+const APIFeatures = require('../utils/apiFeatures');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -144,6 +145,28 @@ exports.getMyDiscussion = catchAsync(async (req, res, next) => {
     result: discussions.length,
     data: {
       discussions
+    }
+  });
+});
+
+exports.getLeaderboard = catchAsync(async (req, res, next) => {
+  const filter = {};
+  req.query.sort = '-point';
+
+  req.query.limit = '5';
+
+  const features = new APIFeatures(Discussion.find(filter), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const doc = await features.query;
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      results: doc
     }
   });
 });

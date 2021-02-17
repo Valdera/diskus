@@ -81,6 +81,10 @@ const userSchema = new mongoose.Schema(
         }
       ],
       default: []
+    },
+    point: {
+      type: Number,
+      default: 0
     }
   },
   {

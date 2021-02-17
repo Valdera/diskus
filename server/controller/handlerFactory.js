@@ -2,6 +2,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
 const Discussion = require('../models/discussionModel');
+const User = require('../models/userModel');
 
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
@@ -17,6 +18,11 @@ exports.deleteOne = Model =>
           new AppError(`You don't have permission to edit this document`, 404)
         );
       }
+    }
+    if (['Discussion', 'Comment'].includes(Model.modelName)) {
+      await User.findByIdAndUpdate(req.body.user, {
+        $inc: { point: -10 }
+      });
     }
 
     await Model.findByIdAndDelete(req.params.id);
@@ -70,6 +76,11 @@ exports.createOne = Model =>
       if (!discussion) {
         return next(new AppError(`There are no discussion with this ID`, 400));
       }
+    }
+    if (['Discussion', 'Comment'].includes(Model.modelName)) {
+      await User.findByIdAndUpdate(req.body.user, {
+        $inc: { point: 10 }
+      });
     }
 
     const doc = await Model.create(req.body);
