@@ -82,7 +82,7 @@ function* fetchDiscussionsAsync({ payload }) {
   }
 }
 
-function* workereDeleteDiscussion({ payload }) {
+function* workerDeleteDiscussion({ payload }) {
   try {
     const jwt = new Cookies();
     yield jwt.get('jwt', { path: '/' });
@@ -124,7 +124,7 @@ function* watchVoteStart() {
 function* watchDeleteDiscussionStart() {
   yield takeLatest(
     DiscussionActionTypes.DELETE_DISCUSSION_START,
-    workereDeleteDiscussion
+    workerDeleteDiscussion
   );
 }
 

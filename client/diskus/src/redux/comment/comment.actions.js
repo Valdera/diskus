@@ -17,3 +17,17 @@ export const createCommentFailure = (err) => ({
 export const cleanErrorComment = () => ({
   type: CommentActionTypes.CLEAN_ERROR_COMMENT
 });
+
+export const deleteCommentStart = (data) => ({
+  type: CommentActionTypes.DELETE_COMMENT_START,
+  payload: data
+});
+
+export const deleteCommentSuccess = () => ({
+  type: CommentActionTypes.DELETE_COMMENT_SUCCESS
+});
+
+export const deleteCommentFailure = (err) => ({
+  type: CommentActionTypes.DELETE_COMMENT_FAILURE,
+  payload: err
+});

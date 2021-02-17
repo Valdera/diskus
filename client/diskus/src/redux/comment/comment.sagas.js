@@ -1,8 +1,13 @@
 import { CommentActionTypes } from './comment.types';
 import { all, takeLatest, call, put } from 'redux-saga/effects';
 import Cookies from 'universal-cookie';
-import { createCommentFailure, createCommentSuccess } from './comment.actions';
-import { createComment } from '../../api/comment.request';
+import {
+  createCommentFailure,
+  createCommentSuccess,
+  deleteCommentFailure,
+  deleteCommentSuccess
+} from './comment.actions';
+import { createComment, deleteComment } from '../../api/comment.request';
 import { getDiscussionStart } from '../discussion/discussion.actions';
 
 //* WORKERS
@@ -22,6 +27,21 @@ function* workerCreateComment({ payload }) {
   }
 }
 
+function* workerDeleteComment({ payload }) {
+  try {
+    const jwt = new Cookies();
+    yield jwt.get('jwt', { path: '/' });
+    yield deleteComment({
+      jwt: jwt.cookies.jwt,
+      id: payload.id
+    });
+    yield put(deleteCommentSuccess());
+    yield put(getDiscussionStart(payload.discussion));
+  } catch (err) {
+    yield put(deleteCommentFailure(err));
+  }
+}
+
 //* WATCHERS
 
 function* watchCreateCommentStart() {
@@ -31,6 +51,13 @@ function* watchCreateCommentStart() {
   );
 }
 
+function* watchDeleteCommentStart() {
+  yield takeLatest(
+    CommentActionTypes.DELETE_COMMENT_START,
+    workerDeleteComment
+  );
+}
+
 export function* commentSagas() {
-  yield all([call(watchCreateCommentStart)]);
+  yield all([call(watchCreateCommentStart), call(watchDeleteCommentStart)]);
 }

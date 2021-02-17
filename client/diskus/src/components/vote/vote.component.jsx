@@ -28,10 +28,10 @@ const Vote = ({ item, type, currentUser, voteStart, clickable = true }) => {
         if (dict.downvote.includes(currentUser.id)) {
           doc.downvote.pop(currentUser.id);
           doc.upvote.push(currentUser.id);
-          setVoteCount(voteCount + 2);
+          setVoteCount(doc.upvote.length - doc.downvote.length);
         } else {
           doc.upvote.push(currentUser.id);
-          setVoteCount(voteCount + 1);
+          setVoteCount(doc.upvote.length - doc.downvote.length);
         }
       }
 
@@ -39,13 +39,14 @@ const Vote = ({ item, type, currentUser, voteStart, clickable = true }) => {
         if (dict.upvote.includes(currentUser.id)) {
           doc.upvote.pop(currentUser.id);
           doc.downvote.push(currentUser.id);
-          setVoteCount(voteCount - 2);
+          setVoteCount(doc.upvote.length - doc.downvote.length);
         } else {
           doc.downvote.push(currentUser.id);
-          setVoteCount(voteCount - 1);
+          setVoteCount(doc.upvote.length - doc.downvote.length);
         }
       }
-
+      console.log(dict.upvote);
+      console.log(dict.downvote);
       setDict(doc);
     }
   };
@@ -53,13 +54,19 @@ const Vote = ({ item, type, currentUser, voteStart, clickable = true }) => {
   return (
     <div className="vote">
       <i
-        className={`fas fa-sort-up vote--up ${clickable ? 'vote--click' : ''}`}
+        className={`fas fa-sort-up ${
+          currentUser && dict && dict.upvote.includes(currentUser.id)
+            ? 'vote--active'
+            : ''
+        } vote__arr vote--up  ${clickable ? 'vote--click' : ''}`}
         onClick={() => handleClick('upvote')}></i>
       <span className="vote__number">{voteCount}</span>
       <i
-        className={`fas fa-sort-down vote--down ${
-          clickable ? 'vote--click' : ''
-        }`}
+        className={`fas fa-sort-down ${
+          currentUser && dict && dict.downvote.includes(currentUser.id)
+            ? 'vote--active'
+            : ''
+        } vote--down  vote__arr  ${clickable ? 'vote--click' : ''}`}
         onClick={() => handleClick('downvote')}></i>
     </div>
   );

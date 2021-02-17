@@ -18,6 +18,8 @@ export const getAllDiscussions = async ({
       : `limit=${limit}&page=${page}&sort=${sort}`;
 
   if (search && search !== '*') {
+    console.log(search);
+    console.log(params);
     discussions = await axios.post(`${url}/api/discussions/search/?${params}`, {
       text: search
     });

@@ -12,3 +12,12 @@ export const createComment = async ({ jwt, data }) => {
 
   return result.data.data.data;
 };
+
+export const deleteComment = async ({ jwt, id }) => {
+  const data = await axios.delete(`${url}/api/comments/${id}`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  });
+  return data;
+};

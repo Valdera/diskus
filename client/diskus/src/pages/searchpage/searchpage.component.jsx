@@ -25,11 +25,11 @@ const SearchPage = ({
 
   const fetchDiscussions = async (sort, currpage = page) => {
     let categoriesSelected;
-    if (categories.length === 0) {
-      categoriesSelected = ['Others'];
-    } else {
-      categoriesSelected = categories;
-    }
+    // if (categories.length === 0) {
+    //   categoriesSelected = ['Others'];
+    // } else {
+    categoriesSelected = categories;
+    // }
     const search = match.params.search;
     await fetchDiscussionsStart({
       categories: categoriesSelected,
@@ -41,7 +41,7 @@ const SearchPage = ({
   };
 
   useEffect(() => {
-    fetchDiscussions();
+    fetchDiscussions(sort);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const changePage = async (type) => {

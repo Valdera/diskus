@@ -30,13 +30,18 @@ exports.searchDiscussion = catchAsync(async (req, res, next) => {
   const doc = await features.query;
 
   const miniSearch = new MiniSearch({
-    fields: ['text'],
+    fields: ['text', 'title'],
+
     storeFields: ['title', 'text', 'categories', 'user', 'id', 'vote']
   });
 
   miniSearch.addAll(doc);
 
-  const results = miniSearch.search(req.body.text, { prefix: true });
+  const results = miniSearch.search(req.body.text, {
+    prefix: true,
+    fuzzy: 0.2,
+    boost: { title: 2 }
+  });
 
   res.status(200).json({
     status: 'success',

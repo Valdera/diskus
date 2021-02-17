@@ -54,9 +54,11 @@ const DiscussionPage = ({
               Login first to comment and to vote on this discussion
             </div>
           )}
-          {selectedDiscussion.comments.map((comment) => (
-            <Comment comment={comment} key={comment.id} />
-          ))}
+          {selectedDiscussion.comments
+            .sort((a, b) => (a.createdDate < b.createdDate ? 1 : -1))
+            .map((comment) => (
+              <Comment comment={comment} key={comment.id} />
+            ))}
         </div>
       ) : (
         ''
