@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 import { createStructuredSelector } from 'reselect';
 import Filter from '../../components/filter/filter.component';
 import Post from '../../components/post/post.component';
@@ -30,6 +32,7 @@ const SearchPage = ({
     // } else {
     categoriesSelected = categories;
     // }
+    console.log(match);
     const search = match.params.search;
     await fetchDiscussionsStart({
       categories: categoriesSelected,
@@ -110,4 +113,6 @@ const mapStateToProps = createStructuredSelector({
   discussions: selectDiscussions
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SearchPage)
+);
