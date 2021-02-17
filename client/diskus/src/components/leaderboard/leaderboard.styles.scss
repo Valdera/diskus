@@ -8,6 +8,16 @@
   right: 8vw;
   box-shadow: 0 3rem 5rem rgba($color-grey-dark, 0.2);
   background-color: $color-white;
+
+  @include respond(tab-land) {
+    top: 13vh;
+    right: 2vw;
+  }
+
+  @include respond(tab-port) {
+    display: none;
+  }
+
   h3 {
     font-family: $font-display;
     font-size: 1.8rem;

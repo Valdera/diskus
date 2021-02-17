@@ -17,7 +17,7 @@ const Leaderboard = () => {
       <h3>Top Members</h3>
       {leaderboard
         ? leaderboard.map((user, index) => (
-            <div className="leaderboard__item">
+            <div className="leaderboard__item" key={user.id}>
               <span className="leaderboard__number">{index + 1}</span>
               <p>{user.name.substring(0, 15)}</p>
               <span className="leaderboard__points">{user.point} Points</span>

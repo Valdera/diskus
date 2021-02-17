@@ -12,7 +12,10 @@ const PopularBubble = ({ discussion, history }) => {
         <i className="fas fa-laptop-code"></i>
       </div>
       <div className="popular-bubble__content">
-        <h4>{discussion.title.substring(0, 20)}</h4>
+        <h4>
+          {discussion.title.substring(0, 20)}
+          {discussion.title.length > 19 ? '...' : ''}
+        </h4>
         <div className="popular-bubble__desc">
           <i className="fas fa-calendar-alt"></i>
           <p className="popular-bubble__text">
